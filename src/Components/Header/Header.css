@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Acme&family=Dancing+Script&display=swap');
+.header{
+    height: 65px;
+    -webkit-box-shadow: 0px 10px 62px -5px rgba(230,181,215,1);
+-moz-box-shadow: 0px 10px 62px -5px rgba(230,181,215,1);
+box-shadow: 0px 10px 62px -5px rgba(230,181,215,1);
+
+
+}
+.pirate {
+    position: -webkit-sticky;
+    position: sticky;
+    /* top: 4rem; */
+  }
+.header-logo-name{
+    font-size: 32px;
+    float: left;
+    margin: 0px;
+    padding-top: 5px;
+    padding-left: 13px;
+    font-family: 'Dancing Script', cursive;
+    font-weight: bold;
+}
+
+.avatar{
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+}
+
+.avatar-name{
+    float: right;
+    font-size: 16px;
+    padding-top: 20px;
+    font-weight: bold;
+    font-family: 'Acme', sans-serif;
+    margin-right: 10px;
+}
+
+.avatar-name-div{
+    display: inline-flex;
+    float: right;
+}

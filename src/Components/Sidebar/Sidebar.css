@@ -1,0 +1,34 @@
+#components-layout-demo-responsive .logo {
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 16px;
+  }
+  
+  .site-layout-sub-header-background {
+    background: #fff;
+  }
+  
+  .site-layout-background {
+    background: #fff;
+  }
+
+  .layout{
+      /* min-height: 546px; */
+      min-height: 846px;
+      
+  }
+  .ant-menu:not(.ant-menu-horizontal) .ant-menu-item-selected {
+    background-color: #ddc7dd;
+    color: black;
+    font-weight: bold;
+}
+  .sidebarbg{
+    background-color: white;
+    max-width: 275px !important;
+    min-width: 275px !important;
+  }
+  .menubg{
+    background-color: white;
+   
+    
+  }

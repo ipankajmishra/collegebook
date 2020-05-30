@@ -1,0 +1,35 @@
+.site-card-border-less-wrapper {
+    background: #ececec;
+    padding: 30px;
+  }
+
+  .sign-in-form{
+    margin-left: auto;
+    display: flex;
+    justify-content: center;
+    
+    padding-top: 5%;
+   
+  }
+
+  .success-icon .anticon svg {
+    display: inline-block;
+    width: 4rem;
+    height: 4rem;
+}
+
+  .rc-anchor-normal .rc-anchor-content {
+    height: 74px;
+    width: 150px;
+}
+
+.g-recaptcha {
+    transform:scale(0.77);
+    transform-origin:0 0;
+}
+
+.otp-div input{
+    height: 40px;
+    width: 40px !important;
+    margin-top: 30px;
+}
