@@ -6,6 +6,7 @@ import firebase from "../../firebase";
 import bgImg from "../../images/pencils-1280558_1920.jpg";
 import OtpInput from 'react-otp-input';
 import "./Login.css";
+import axios from 'axios';
 import { DownloadOutlined, PoweroffOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { withRouter } from "react-router-dom";
 export class Login extends Component {
@@ -22,7 +23,8 @@ export class Login extends Component {
       code:'',
       otpLoading:false,
       isDisabled:false,
-      isloggedIn:false
+      isloggedIn:false,
+      user:null
     };
   }
 
@@ -33,7 +35,23 @@ export class Login extends Component {
     }
   };
 
-  handleClickSignIn = async () => {
+  handleClickSignIn = () =>{
+    axios.get(`http://localhost:9090/user/getUserByMobile/`+parseInt(this.state.mobile))
+    .then(res => {
+      let user = res.data;
+      if(user.length>0){
+          this.setState({
+              user:res.data[0]
+          },()=>this.handleClickSignInUsingMobile())
+          
+      }
+      else{
+          console.log("User does not exists");
+      }
+    })
+  }
+
+  handleClickSignInUsingMobile = async () => {
     this.setState({
       hideSignIn: true,
       pauseLoading: true,
@@ -108,6 +126,7 @@ export class Login extends Component {
               isloggedIn:true
             },()=>{
                 this.props.setLoggedIn(result.user);
+                this.props.setLoggedInUser(this.state.user);
                 this.props.history.push("/timeline");
             });
           })
