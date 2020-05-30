@@ -57,16 +57,16 @@ export class App extends Component {
           />}
 
             <Route path="/timeline">
-              {this.state.isloggedIn && this.state.user!==null && this.state.user!==undefined ? (
+              {/* {this.state.isloggedIn && this.state.user!==null && this.state.user!==undefined ? ( */}
                 <>
                     <Header setLoggedIn={this.setLoggedIn}/>
                   <div style={{marginTop:"14px"}}>
                   <Sidebar />
                   </div>
                 </>
-              ) : (
+             {/* ) : (
                   <Redirect to="/" />
-                )}
+                )} */}
             </Route>
 
           
