@@ -14,7 +14,7 @@ export class App extends Component {
     this.state={
       isloggedIn:false,
       user:null,
-      // loggedInUser:null
+      loggedInUser:null,
       loggedInUser:{
         "firstName":"Pankaj",
         "lastName":"Mishra"
@@ -76,9 +76,9 @@ export class App extends Component {
                   <Sidebar />
                   </div>
                 </>
-             {/* ) : (
+               {/* ) : (
                   <Redirect to="/" />
-                )} */}
+                )}  */}
             </Route>
 
           
