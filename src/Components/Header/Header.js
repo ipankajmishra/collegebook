@@ -56,7 +56,7 @@ export class Header extends Component {
                      <img  style={{height:"40px", float:"left", marginLeft:"60px",marginTop:"10px"}} src={LogoImg} />
                      <p className="header-logo-name">CollegeBook</p>
                      <div className="avatar-name-div">
-                        <p className="avatar-name">Hi, Deepanshu Arora</p>
+        <p className="avatar-name">Hi, {this.props.loggedInUser.firstName} {this.props.loggedInUser.lastName}</p>
                         <Dropdown overlay={menu}>
                         <Avatar className="avatar" size={44} icon={<UserOutlined />} /></Dropdown>
                         

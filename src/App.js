@@ -13,7 +13,8 @@ export class App extends Component {
 
     this.state={
       isloggedIn:false,
-      user:null
+      user:null,
+      loggedInUser:null
     }
   }
   
@@ -30,6 +31,12 @@ export class App extends Component {
         user:user
       })
     }
+  }
+
+  setLoggedInUser = (user)=>{
+    this.setState({
+      loggedInUser:user
+    })
   }
 
   componentDidMount(){
@@ -52,6 +59,7 @@ export class App extends Component {
             render={props => (
               <Login
                setLoggedIn = {this.setLoggedIn}
+               setLoggedInUser = {this.setLoggedInUser}
               />
             )}
           />}
@@ -59,14 +67,14 @@ export class App extends Component {
             <Route path="/timeline">
               {this.state.isloggedIn && this.state.user!==null && this.state.user!==undefined ? (
                 <>
-                    <Header setLoggedIn={this.setLoggedIn}/>
+                    <Header setLoggedIn={this.setLoggedIn} loggedInUser={this.state.loggedInUser}/>
                   <div style={{marginTop:"14px"}}>
                   <Sidebar />
                   </div>
                 </>
-              ) : (
+               ) : (
                   <Redirect to="/" />
-                )}
+                )} 
             </Route>
 
           
