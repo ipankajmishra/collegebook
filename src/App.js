@@ -14,7 +14,11 @@ export class App extends Component {
     this.state={
       isloggedIn:false,
       user:null,
-      loggedInUser:null
+      loggedInUser:null,
+      loggedInUser:{
+        "firstName":"Pankaj",
+        "lastName":"Mishra"
+      }
     }
   }
   
@@ -65,16 +69,16 @@ export class App extends Component {
           />}
 
             <Route path="/timeline">
-              {this.state.isloggedIn && this.state.user!==null && this.state.user!==undefined ? (
+              {/* {this.state.isloggedIn && this.state.user!==null && this.state.user!==undefined ? ( */}
                 <>
                     <Header setLoggedIn={this.setLoggedIn} loggedInUser={this.state.loggedInUser}/>
                   <div style={{marginTop:"14px"}}>
                   <Sidebar />
                   </div>
                 </>
-               ) : (
+               {/* ) : (
                   <Redirect to="/" />
-                )} 
+                )}  */}
             </Route>
 
           

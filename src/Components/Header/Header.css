@@ -42,3 +42,12 @@ box-shadow: 0px 10px 62px -5px rgba(230,181,215,1);
     display: inline-flex;
     float: right;
 }
+
+.create-new-post{
+   margin-top: 15px;
+   margin-right: 20px;
+}
+
+.ant-drawer-body{
+    padding-bottom: 0px !important;
+}
