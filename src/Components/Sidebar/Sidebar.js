@@ -58,7 +58,7 @@ export class Sidebar extends Component {
               className="site-layout-background"
               style={{ padding: 24, minHeight: 360 }}
             >
-              <PictureComponent/>
+              <PictureComponent loggedInUser={this.props.loggedInUser}/>
             </div>
             
           </Content>

@@ -17,7 +17,8 @@ export class App extends Component {
       loggedInUser:null,
       loggedInUser:{
         "firstName":"Pankaj",
-        "lastName":"Mishra"
+        "lastName":"Mishra",
+        "userName":"panmish"
       }
     }
   }
@@ -73,7 +74,7 @@ export class App extends Component {
                 <>
                     <Header setLoggedIn={this.setLoggedIn} loggedInUser={this.state.loggedInUser}/>
                   <div style={{marginTop:"14px"}}>
-                  <Sidebar />
+                  <Sidebar loggedInUser={this.state.loggedInUser}/>
                   </div>
                 </>
                {/* ) : (

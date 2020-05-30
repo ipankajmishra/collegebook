@@ -1,0 +1,18 @@
+.post-avatar{
+    margin-right: 10px;
+}
+
+.post-desc{
+    margin-top: 65px;
+}
+
+.post-tools{
+    margin-top: 20px;
+}
+
+.left-tools{
+    float: left;
+}
+.right-tools{
+    float: right;
+}
