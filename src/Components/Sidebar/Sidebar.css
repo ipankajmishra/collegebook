@@ -10,6 +10,20 @@
   
   .site-layout-background {
     background: #F0F2F5;
+    /* overflow: scroll;
+    max-height: 846px;
+    overflow-y: hidden;
+    overflow-x: hidden; */
+    
+  }
+
+  .site-layout-background:hover {
+    background: #F0F2F5;
+    /* overflow: scroll;
+    max-height: 846px;
+    overflow-y: scroll;
+    overflow-x: hidden; */
+    
   }
 
   .layout{
