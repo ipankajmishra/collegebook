@@ -26,6 +26,14 @@
     
   }
 
+  /* .drawer{
+    min-height: 500px;
+  } */
+
+  .ant-drawer-bottom.ant-drawer-open .ant-drawer-content-wrapper{
+    height: 550px !important;
+  }
+
   .layout{
       /* min-height: 546px; */
       min-height: 846px;

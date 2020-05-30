@@ -15,19 +15,34 @@ export class App extends Component {
       isloggedIn:false,
       user:null,
       loggedInUser:null,
-      loggedInUser:{
-        "firstName":"Pankaj",
-        "lastName":"Mishra",
-        "userName":"panmish"
-      }
+      // loggedInUser:{
+      //   "firstName":"Pankaj",
+      //   "lastName":"Mishra",
+      //   "userName":"panmish",
+      //   "userId":1,
+      //   "mobileNumber":1234567890,
+      //   "followers":"11111111",
+      //   "following":"111111111111111111111111111111111111",
+      //   "bio":"All your dreams can come true and I'll make sure of it.",
+      //   "posts":[{"imgUrl":"https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg"},1,1,1,1,1]
+       
+      // },
+      myPosts:[],
+      showSearchBar:false
     }
+  }
+
+  setsearchBar = (value) =>{
+    this.setState({
+      showSearchBar : value
+    })
   }
   
   setLoggedIn = (user)=>{
     if(user!==null ){
       this.setState({
         isloggedIn:true,
-        user:user
+        user:user,
       })
     }
     else{
@@ -39,8 +54,13 @@ export class App extends Component {
   }
 
   setLoggedInUser = (user)=>{
+    let posts = user.posts;
+    posts.sort((a,b)=>{
+      return b.postId - a.postId;
+    })
     this.setState({
-      loggedInUser:user
+      loggedInUser:user,
+      myPosts:posts
     })
   }
 
@@ -70,25 +90,21 @@ export class App extends Component {
           />}
 
             <Route path="/timeline">
-              {/* {this.state.isloggedIn && this.state.user!==null && this.state.user!==undefined ? ( */}
+              {this.state.isloggedIn && this.state.user!==null && this.state.user!==undefined ? (
                 <>
-                    <Header setLoggedIn={this.setLoggedIn} loggedInUser={this.state.loggedInUser}/>
+                    <Header setsearchBar={this.setsearchBar} showSearchBar ={this.state.showSearchBar} setLoggedInUser = {this.setLoggedInUser} setLoggedIn={this.setLoggedIn} loggedInUser={this.state.loggedInUser}/>
                   <div style={{marginTop:"14px"}}>
-                  <Sidebar loggedInUser={this.state.loggedInUser}/>
+                  <Sidebar setsearchBar={this.setsearchBar} myPosts={this.state.myPosts} loggedInUser={this.state.loggedInUser}/>
                   </div>
                 </>
-               {/* ) : (
+             ) : (
                   <Redirect to="/" />
-                )}  */}
+                )}    
             </Route>
 
           
           </Router>
-        {/* <Login/> */}
-     {/* <Header/>
-      <div style={{marginTop:"14px"}}>
-      <Sidebar />
-      </div> */}
+      
       
     </div>
     )

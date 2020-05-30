@@ -20,3 +20,8 @@
 .right-tools{
     float: right;
 }
+
+.agoTime{
+    float: right;
+    font-size: 13px;
+}

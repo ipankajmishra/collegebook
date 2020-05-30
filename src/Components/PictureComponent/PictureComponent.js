@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Card, Avatar } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import moment from "moment";
 // import { faThumbsUp, faThumbsDown, faHeart, faComment, faPaperPlane } from '@fortawesome/free-regular-svg-icons'
 import { UserOutlined } from '@ant-design/icons';
 import { AiOutlineHeart } from 'react-icons/ai';
@@ -23,16 +24,19 @@ export class PictureComponent extends Component {
     }
 
     componentWillReceiveProps(props){
-        // if(props.loggedInUser !== this.props.loggedInUser){
+        if(props.loggedInUser !== this.props.loggedInUser){
             this.setState({
                 createdBy:`${props.loggedInUser.firstName} ${props.loggedInUser.lastName}`,
                 userName:props.loggedInUser.userName
             })
-        // }
+        }
     }
     
 
     render() {
+        const agotime = moment(this.props.post.createDate).fromNow();
+        const  createdBy= `${this.props.loggedInUser.firstName} ${this.props.loggedInUser.lastName}`
+        
         return (
             <div className="picture-component-full">
                 <Card  bordered={true} style={{textAlign:"left"}}>
@@ -41,11 +45,14 @@ export class PictureComponent extends Component {
                         
                         {/* <img src = {this.state.avatar} style={{display:'inline',height:'18px' , width: '18px' , borderRadius:'50%'}}/> */}
                         <Avatar className="post-avatar"  size={20} icon={<UserOutlined />} />
-                    <p style={{display:'inline' , fontSize:'15px' , textAlign:'center'}}>{this.state.createdBy}</p>
-                    
+                    <p style={{display:'inline' , fontSize:'15px' , textAlign:'center'}}>{createdBy}</p>
+                    <span className="agoTime">{agotime}</span>
                     </div>
                     {/* <hr /> */}
-                    <img src = {this.state.imgsrc} style={{marginTop:"10px",maxHeight:"200px",width:"600px"}}/>
+{this.props.fromProfile &&                    <img src = {this.props.post.imgUrl} style={{marginTop:"10px",maxHeight:"200px",width:"420px"}}/>
+}                   
+{!this.props.fromProfile &&                    <img src = {this.props.post.imgUrl} style={{marginTop:"10px",maxHeight:"200px",width:"600px"}}/>
+} 
                     {/* <br /> */}
                     <div className="post-tools">
                         <div className="left-tools">
@@ -55,7 +62,7 @@ export class PictureComponent extends Component {
                             <RiShareForwardBoxLine onclick={()=>{}} size={30} style={{marginRight:"10px", cursor:"pointer"}}/>
                         </div>
                         <div className="right-tools">
-                           <p>87 Likes  </p>
+                           <p>{this.props.post.likeCount} Likes  </p>
                         </div>
                     </div>
 
@@ -63,7 +70,7 @@ export class PictureComponent extends Component {
                     <button href="#" style={{border:'none' , backgroundColor:'white' , padding:'0px' , margin:'0px 0px 0px 15px'}} ><FontAwesomeIcon icon={faComment} /></button>
                     <button href="#" style={{border:'none' , backgroundColor:'white' , padding:'0px' , margin:'0px 0px 0px 15px'}} ><FontAwesomeIcon icon={faPaperPlane} /></button> */}
                     <div>
-                <p className="post-desc" style={{}}><span style={{fontWeight:"bold", marginRight:"10px"}}>{this.state.userName}</span>{this.state.content}</p>
+                <p className="post-desc" style={{}}><span style={{fontWeight:"bold", marginRight:"10px"}}>{this.props.loggedInUser.userName}</span>{this.props.post.postDescription}</p>
                     </div>
 
                 </Card>

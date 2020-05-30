@@ -1,0 +1,19 @@
+.myprofile-post{
+    margin-top: 20px;
+    background-color: red;
+    min-height: 140px;
+}
+
+.right-myprofile{
+    max-height: 450px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.modal-specific-pic{
+    height: 400px;
+}
+
+.ant-modal-close-x{
+    display: none;
+}

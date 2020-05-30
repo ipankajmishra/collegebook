@@ -36,7 +36,7 @@ export class Login extends Component {
   };
 
   handleClickSignIn = () =>{
-    axios.get(`http://localhost:9090/user/getUserByMobile/`+parseInt(this.state.mobile))
+    axios.get(`http://52.221.186.66:9090/user/getUserByMobile/`+parseInt(this.state.mobile))
     .then(res => {
       let user = res.data;
       if(user.length>0){
@@ -126,6 +126,7 @@ export class Login extends Component {
               isloggedIn:true
             },()=>{
                 this.props.setLoggedIn(result.user);
+                console.log(this.state.user.posts)
                 this.props.setLoggedInUser(this.state.user);
                 this.props.history.push("/timeline");
             });

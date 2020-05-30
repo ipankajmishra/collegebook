@@ -6,13 +6,17 @@ import firebase from "../../firebase";
 import { Drawer, Form, Col, Row, Input, Select, DatePicker, Upload,message } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
 import { InboxOutlined } from '@ant-design/icons';
-
-
+import ReactSearchBox from 'react-search-box'
+import { MDBRow, MDBCol } from "mdbreact";
+import axios from "axios";
 
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
 import { Menu, Dropdown, Button } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
+import ProfileLeft from "../ProfileStatsComponent/ProfileLeft";
+import ProfileRight from "../ProfileStatsComponent/ProfileRight";
+
 const { Option } = Select;
 const { Dragger } = Upload;
 const props = {
@@ -35,20 +39,41 @@ export class Header extends Component {
     constructor(props){
         super(props);
         this.state={
-          visible: false
+          visible: false,
+          post:{},
+          showSearchBar:false,
+          data : [],
+          visibleProfileDw: false,
+       placement: 'bottom',
         }
     }
+   
+    // {
+    //   key: 'john',
+    //   value: 'John Doe',
+    //   data:null
+    // } 
+     
 
-    
+    componentDidMount(){
+      this.props.setsearchBar(false);
+    }
+
+    componentWillReceiveProps(porps){
+      this.setState({
+        showSearchBar:props.showSearchBar
+      })
+    }
     showDrawer = () => {
+      // this.props.setsearchBar(false);
       this.setState({
         visible: true,
       });
     };
   
-    onClose = () => {
+    onCloseDw = () => {
       this.setState({
-        visible: false,
+        visibleProfileDw: false,
       });
     };
 
@@ -68,7 +93,120 @@ export class Header extends Component {
           });
     }
 
+    onhandleSelectAuthor = () =>{
+      let post = this.state.post;
+      post["authorId"] = this.props.loggedInUser.userId;
+      this.setState({
+        post
+      })
+    }
+
+    onhandleAddLocation = (e)=>{
+      let post = this.state.post;
+      post["location"] = e.target.value;
+      this.setState({
+        post
+      })
+    }
+
+    onhadleSelecType = (value)=>{
+      console.log(value);
+      let post = this.state.post;
+      if(value === "public"){
+        post["privatePost"]=false
+      }else{
+        post["privatePost"]=true
+      }
+      this.setState({
+        post
+      })
+    }
+
+    onhandleCaption = (e) => {
+      let post = this.state.post;
+      post["postDescription"]=e.target.value;
+      this.setState({
+        post
+      })
+    }
+
+    onhandleCreatePost = () =>{
+      let post = this.state.post;
+      post["likeCount"]=0;
+      post["shareCount"]=0;
+      post["createDate"]=new Date();
+      post["likedUsers"]=[];
+      post["imgUrl"]="https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg";
+      this.setState({
+        post
+      },()=>{
+        let formData = {
+          "post":this.state.post,
+          "mobile":this.props.loggedInUser.mobileNumber
+        };
+        axios.post('http://52.221.186.66:9090/post/addNewPost', formData)
+        .then((response)=> {
+          console.log(response.data);
+          this.setState({
+            visible: false,
+          },()=>{
+            this.props.setLoggedInUser(response.data);
+          });
+        })
+      })
+
+      
+    }
+
+    findUserUsingUserName = (event) =>{
+      let e = event.target.value;
+      console.log(e);
+      if(e.length>0){
+        axios.get("http://52.221.186.66:9090/user/getUserByUserName/"+e).then((res)=>{
+            console.log(res.data);
+            if(res.data.length>0){
+              this.setState({
+                data: res.data
+              })
+            }
+            else{
+              this.setState({
+                data:[]
+              })
+            }
+        })
+      }
+    }
+
+    showDrawerProfile = () => {
+      
+      this.setState({
+        visibleProfileDw: true,
+      });
+    };
+  
+    onClose = () => {
+      this.setState({
+        visible: false,
+        selectedIdMenu:"2"
+      });
+    };
+
     render() {
+      const { placement, visibleProfileDw } = this.state;
+        const menuSearch = (
+          <Menu>
+
+            {this.state.data.map((user)=>{
+              return <Menu.Item>
+              <a  onClick={()=>this.showDrawerProfile()}>
+                {user.firstName}
+              </a>
+            </Menu.Item>;
+            })}
+          </Menu>
+        )
+
         const menu = (
             <Menu>
               <Menu.Item>
@@ -93,8 +231,25 @@ export class Header extends Component {
                 <div className="header">
                      <img  style={{height:"40px", float:"left", marginLeft:"60px",marginTop:"10px"}} src={LogoImg} />
                      <p className="header-logo-name">CollegeBook</p>
-                   
+                     {this.props.showSearchBar &&
+                      <Dropdown overlay={menuSearch} trigger={['click']}>
+                        <div className="searchBar"> <Input
+                      placeholder="Search user with their username"
+                      
+                      onChange={(e)=>this.findUserUsingUserName(e)}
+                      // data={this.state.data}
+                      // callback={record => console.log(record)}
+                      // onSelect={(e)=>console.log(e)}
+                    
+                       /></div>
+                    </Dropdown>
+                    
+                    } 
+
+
+
                      <div className="avatar-name-div">
+                    
                      <Button onClick={this.showDrawer} className="create-new-post" type="dashed" size="40">
                         Create New Post
                         </Button>
@@ -119,7 +274,7 @@ export class Header extends Component {
               <Button onClick={this.onClose} style={{ marginRight: 8 }}>
                 Cancel
               </Button>
-              <Button onClick={this.onClose} type="primary">
+              <Button onClick={()=>this.onhandleCreatePost()} type="primary">
                 Submit
               </Button>
             </div>
@@ -133,7 +288,7 @@ export class Header extends Component {
                   label="Location"
                   rules={[{ required: false, message: 'Please enter location' }]}
                 >
-                  <Input placeholder="Please enter location" />
+                  <Input onChange={(e)=>this.onhandleAddLocation(e)} placeholder="Please enter location" />
                 </Form.Item>
               </Col>
               {/* <Col span={12}>
@@ -158,9 +313,9 @@ export class Header extends Component {
                   label="Post by"
                   rules={[{ required: true, message: 'Please select an owner' }]}
                 >
-                  <Select placeholder="Please select an owner" defaultValue="pankaj">
-                    <Option  value="pankaj">Pankaj Mishra</Option>
-                    <Option value="anonymous">Anonymous</Option>
+                  <Select onSelect={()=>this.onhandleSelectAuthor()} placeholder="Please select an owner" >
+            <Option  value={this.props.loggedInUser.userId.toString()}>{this.props.loggedInUser.firstName} {this.props.loggedInUser.lastName}</Option>
+                    {/* <Option value="anonymous">Anonymous</Option> */}
                   </Select>
                 </Form.Item>
               </Col>
@@ -170,7 +325,7 @@ export class Header extends Component {
                   label="Type"
                   rules={[{ required: true, message: 'Please choose the type' }]}
                 >
-                  <Select placeholder="Please choose the type" defaultValue="public">
+                  <Select onChange={(value)=>this.onhadleSelecType(value)} placeholder="Please choose the type">
                     <Option value="private">Private</Option>
                     <Option value="public">Public</Option>
                   </Select>
@@ -206,16 +361,16 @@ export class Header extends Component {
             <Row gutter={16}>
               <Col span={24}>
                 <Form.Item
-                  name="description"
-                  label="Description"
+                  name="caption"
+                  label="Caption"
                   rules={[
                     {
-                      required: true,
-                      message: 'Please enter your description',
+                      required: false,
+                      message: 'Please enter your caption',
                     },
                   ]}
                 >
-                  <Input.TextArea rows={4} placeholder="Please enter your description" />
+                  <Input.TextArea onChange={(e)=>this.onhandleCaption(e)} rows={4} placeholder="Please enter your caption" />
                 </Form.Item>
               </Col>
             </Row>
@@ -230,6 +385,27 @@ export class Header extends Component {
               </p>
             </Dragger>
           </Form>
+          
+        </Drawer>
+        <Drawer
+          className = "drawer"
+          title="Profile Details"
+          placement={placement}
+          closable={true}
+          onClose={this.onCloseDw}
+          visible={visibleProfileDw}
+          key={placement}
+        >
+         <div> <MDBRow>
+            <MDBCol size="3">
+            <ProfileLeft  User={this.state.data[0]}/>
+            </MDBCol>
+            <MDBCol size="9">
+            {/* <ProfileLeft/> */}
+            <ProfileRight User={this.state.data[0]}/>
+            </MDBCol>
+          </MDBRow></div>
+
           
         </Drawer>
             </div>

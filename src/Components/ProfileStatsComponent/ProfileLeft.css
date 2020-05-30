@@ -1,0 +1,20 @@
+.profile-left{
+    /* background-color: brown; */
+    width: 100%;
+}
+
+.myprofile-name{
+    font-size: 20px;
+    margin-top: 20px;
+    margin-left: 20px;
+}
+
+.ant-statistic-content{
+    text-align: center;
+    margin-left: 0px;
+}
+
+
+.colten{
+    text-align: center;
+}
