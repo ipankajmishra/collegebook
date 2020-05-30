@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Card, Avatar } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faThumbsUp, faThumbsDown, faHeart, faComment, faPaperPlane } from '@fortawesome/free-regular-svg-icons'
+// import { faThumbsUp, faThumbsDown, faHeart, faComment, faPaperPlane } from '@fortawesome/free-regular-svg-icons'
 import { UserOutlined } from '@ant-design/icons';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { FiMessageCircle } from 'react-icons/fi';
