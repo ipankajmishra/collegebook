@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "./Sidebar.css";
 import { Layout, Menu } from "antd";
+import { PictureComponent } from './../PictureComponent/PictureComponent';
 import {
+
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
@@ -46,18 +48,19 @@ export class Sidebar extends Component {
             </Menu.Item>
           </Menu>
         </Sider>
-        <Layout>
+        <Layout style={{width:"700px"}}>
           {/* <Header
             className="site-layout-sub-header-background"
             style={{ padding: 0 }}
           /> */}
-          <Content style={{ margin: "24px 16px 0" }}>
+          <Content style={{ margin: "24px 16px 0", width:"700px" }}>
             <div
               className="site-layout-background"
               style={{ padding: 24, minHeight: 360 }}
             >
-              content
+              <PictureComponent/>
             </div>
+            
           </Content>
           
           <Footer style={{ textAlign: "center" }}>
