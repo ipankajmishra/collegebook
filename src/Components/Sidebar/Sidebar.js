@@ -53,12 +53,18 @@ export class Sidebar extends Component {
             className="site-layout-sub-header-background"
             style={{ padding: 0 }}
           /> */}
-          <Content style={{ margin: "24px 16px 0", width:"700px" }}>
+          <Content style={{ margin: "0px 16px 0", width:"700px"}}>
             <div
               className="site-layout-background"
-              style={{ padding: 24, minHeight: 360 }}
+              style={{ padding:24, minHeight: 360 }}
             >
               <PictureComponent loggedInUser={this.props.loggedInUser}/>
+              <PictureComponent loggedInUser={this.props.loggedInUser}/>
+
+              <PictureComponent loggedInUser={this.props.loggedInUser}/>
+
+              <PictureComponent loggedInUser={this.props.loggedInUser}/>
+
             </div>
             
           </Content>

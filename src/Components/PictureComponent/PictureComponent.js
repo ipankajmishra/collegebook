@@ -34,7 +34,7 @@ export class PictureComponent extends Component {
 
     render() {
         return (
-            <div>
+            <div className="picture-component-full">
                 <Card  bordered={true} style={{textAlign:"left"}}>
 
                     <div>
@@ -49,10 +49,10 @@ export class PictureComponent extends Component {
                     {/* <br /> */}
                     <div className="post-tools">
                         <div className="left-tools">
-                            <AiOutlineHeart size={30} style={{marginRight:"10px"}}/>
-                            <FiMessageCircle size={30} style={{marginRight:"10px"}}/>
+                            <AiOutlineHeart onclick={()=>{}} size={30} style={{marginRight:"10px", cursor:"pointer"}}/>
+                            <FiMessageCircle onclick={()=>{}} size={30} style={{marginRight:"10px", cursor:"pointer"}}/>
 
-                            <RiShareForwardBoxLine size={30} style={{marginRight:"10px"}}/>
+                            <RiShareForwardBoxLine onclick={()=>{}} size={30} style={{marginRight:"10px", cursor:"pointer"}}/>
                         </div>
                         <div className="right-tools">
                            <p>87 Likes  </p>
