@@ -5,11 +5,15 @@ import { Card } from "antd";
 import firebase from "../../firebase";
 import bgImg from "../../images/pencils-1280558_1920.jpg";
 import OtpInput from 'react-otp-input';
-import "./Login.css";
+import "./SignUp.css";
 import axios from 'axios';
 import { DownloadOutlined, PoweroffOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { withRouter, Link } from "react-router-dom";
-export class Login extends Component {
+import { Drawer, Form, Col, Row, Select, DatePicker } from 'antd';
+import { PlusOutlined } from '@ant-design/icons';
+
+const { Option } = Select;
+export class SignUp extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -25,15 +29,13 @@ export class Login extends Component {
       isDisabled:false,
       isloggedIn:false,
       user:null,
-      returnfromSignUp:false
+      visible: false,
+      usernameNotValid:false,
+      result:{}
     };
   }
 
-  // componentDidMount(){
-  //   if(this.state.returnfromSignUp){
-  //     this.props.history.push("/timeline");
-  //   }
-  // }
+  
 
   setMobileNumber = (e) => {
     const re = /^[0-9\b]+$/;
@@ -42,6 +44,25 @@ export class Login extends Component {
     }
   };
 
+  showDrawer = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    },()=>window.location.reload());// ,
+    
+  };
+
+  onCloseAftercomplete = () => {
+    this.setState({
+      visible: false,
+    },()=>this.props.history.push("/"));// ,
+    
+  };
   handleClickSignIn = () =>{
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/getUserByMobile/`+parseInt(this.state.mobile))
     .then(res => {
@@ -49,11 +70,12 @@ export class Login extends Component {
       if(user.length>0){
           this.setState({
               user:res.data[0]
-          },()=>this.handleClickSignInUsingMobile())
+          })//,()=>this.handleClickSignInUsingMobile()
           
       }
       else{
           console.log("User does not exists");
+          this.handleClickSignInUsingMobile();
       }
     })
   }
@@ -130,13 +152,17 @@ export class Login extends Component {
               pauseLoading: false,
               otpLoading:false,
               isDisabled:true,
-              isloggedIn:true
-            },()=>{
-                this.props.setLoggedIn(result.user);
-                console.log(this.state.user.posts)
-                this.props.setLoggedInUser(this.state.user);
-                this.props.history.push("/timeline");
-            });
+              isloggedIn:true,
+              result:result
+            },()=>this.showDrawer()
+            // ,
+            // ()=>{
+            //     this.props.setLoggedIn(result.user);
+            //     console.log(this.state.user.posts)
+            //     this.props.setLoggedInUser(this.state.user);
+            //     this.props.history.push("/timeline");
+            // }
+            );
           })
           .catch((error)=> {
             console.error(error);
@@ -150,11 +176,68 @@ export class Login extends Component {
   }
 
 
-  // setTrueFromSignUp = (value)=>{
-  //   this.setState({
-  //     returnfromSignUp:value
-  //   })
-  // }
+  onFinish = values => {
+    console.log('Success:', values);
+    let firstname = values.firstname;
+    let lastname = values.lastname;
+    let username = values.username;
+    if(lastname===undefined){
+        lastname="";
+    }
+    let formdata = {
+        "firstName":firstname,
+        "lastName":lastname,
+        "userName":username,
+        "followers":[],
+        "following":[],
+        "posts":[],
+        "type":false,
+        "mobileNumber":parseInt(this.state.mobile)
+    }
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/addNewUser`,formdata).then((res)=>{
+        if(res.data.userName!==undefined && res.data.userName !==null && res.data.userName.length>0){
+                
+                this.props.setLoggedIn(this.state.result.user);
+                this.props.setLoggedInUser(res.data);
+                this.setState({
+                    visible:false
+                },()=>this.props.history.push("/timeline"))
+                
+
+        }
+        else{
+            console.log("error-> user not created");
+        }
+    }).catch(err=>{
+        console.log(err);
+        this.onCloseAftercomplete();
+        
+    })
+  };
+
+  onFinishFailed = errorInfo => {
+    console.log('Failed:', errorInfo);
+  };
+
+  onhandleCheckUserName=(e)=>{
+      let username = e.target.value;
+    //   console.log(username);
+      if(username.length>0){
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/getUserByUserName/`+username).then((res)=>{
+            if(res.data.length>0)
+            {
+                this.setState({
+                    usernameNotValid:true
+                })
+            }
+            else{
+                this.setState({
+                    usernameNotValid:false
+                })
+            }
+        })
+      }
+  }
 
   render() {
     return (
@@ -164,12 +247,12 @@ export class Login extends Component {
           ackgroundRepeat: "no-repeat",
           minHeight: "100vh",
         }}
-        className="loginBg"
+        className="SignUpBg"
       >
         <div className="sign-in-form">
-          <Card title="Sign In" bordered={true} style={{ width: 350 }}>
+          <Card title="Sign Up" bordered={true} style={{ width: 350 }}>
             <label style={{ float: "left", marginBottom: "5px" }}>
-              Login using OTP
+              Please verify your mobile number
             </label>
             <Input
               style={{ textAlign: "center" }}
@@ -224,9 +307,9 @@ export class Login extends Component {
                 size="30"
               >
                 {" "}
-                Sign In{" "}
+                Verify{" "}
               </Button>
-              <p style={{marginTop:"10px"}}>Don't have account? <Link to="/signUp">Sign Up</Link></p>
+              <p style={{marginTop:"10px"}}>Already have account? <Link to="/">Log In</Link></p>
              </>
             )}
             {this.state.hideSignIn && this.state.pauseLoading && (
@@ -239,9 +322,110 @@ export class Login extends Component {
             )}{" "}
           </Card>
         </div>
+
+
+
+        <Drawer
+          title="Create a new account"
+          width={720}
+          onClose={this.onClose}
+          visible={this.state.visible}
+          bodyStyle={{ paddingBottom: 80 }}
+        //   footer={
+        //     <div
+        //       style={{
+        //         textAlign: 'right',
+        //       }}
+        //     >
+        //       <Button onClick={this.onClose} style={{ marginRight: 8 }}>
+        //         Cancel
+        //       </Button>
+        //       <Button type="primary" htmlType="submit" >
+        //       {/* onClick={this.onClose} */}
+        //         Submit
+        //       </Button>
+        //     </div>
+        //   }
+        >
+
+            <Form
+               layout="vertical"
+                name="basic"
+                initialValues={{
+                    remember: true,
+                }}
+                onFinish={this.onFinish}
+                onFinishFailed={this.onFinishFailed}
+                >
+                    <Col span={24}>
+                <Form.Item
+                  name="firstname"
+                  label="First Name"
+                  rules={[{ required: true, message: 'Please enter first name' }]}
+                >
+                  <Input placeholder="Please enter first name" />
+                </Form.Item>
+              </Col>
+              <Col span={24}>
+                <Form.Item
+                  name="lastname"
+                  label="Last Name"
+                //   rules={[{ required: true, message: 'Please enter last name' }]}
+                >
+                  <Input placeholder="Please enter last name" />
+                </Form.Item>
+              </Col>
+
+              
+              <Col span={24}>
+                <Form.Item
+                  name="username"
+                  label="User Name"
+                  rules={[{ required: true, message: 'Please enter user name' }]}
+                >
+                  <Input onChange={(e)=>this.onhandleCheckUserName(e)} placeholder="Please enter user name" />
+               </Form.Item>
+               {this.state.usernameNotValid &&                  <p className="username-warning">Username not available. Try with different name.</p>
+} 
+              </Col>
+
+              {/* <Col span={24}>
+                <Form.Item
+                  name="email"
+                  label="Email"
+                  rules={[{ required: true, message: 'Please enter valid email' }]}
+                >
+                  <Input placeholder="Please enter valid email" />
+                </Form.Item>
+              </Col> */}
+
+
+                <Form.Item>
+                <div
+              style={{
+                textAlign: 'right',
+              }}
+            >
+              <Button onClick={this.onClose} style={{ marginRight: 8 }}>
+                Cancel
+              </Button>
+              <Button type="primary" htmlType="submit" >
+              {/* onClick={this.onClose} */}
+                Submit
+              </Button>
+            </div>
+                </Form.Item>
+                </Form>
+
+
+
+
+
+        
+        </Drawer>
       </div>
     );
   }
 }
 
-export default withRouter(Login);
+export default withRouter(SignUp);

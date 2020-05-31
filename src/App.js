@@ -6,6 +6,7 @@ import Header from './Components/Header/Header';
 import Sidebar from './Components/Sidebar/Sidebar';
 import Login from './Components/Login/Login';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
+import SignUp from './Components/Signup/SignUp';
 
 export class App extends Component {
   constructor(props){
@@ -27,6 +28,7 @@ export class App extends Component {
       //   "posts":[{"imgUrl":"https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg"},1,1,1,1,1]
        
       // },
+      // myPosts:[{"imgUrl":"https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg"},1,1,1,1,1],
       myPosts:[],
       showSearchBar:false
     }
@@ -89,6 +91,18 @@ export class App extends Component {
             )}
           />}
 
+
+          <Route
+            path="/signUp"
+            
+            render={props => (
+             
+             <SignUp   setLoggedIn = {this.setLoggedIn}
+             setLoggedInUser = {this.setLoggedInUser}
+             />
+            )}
+          />
+
             <Route path="/timeline">
               {this.state.isloggedIn && this.state.user!==null && this.state.user!==undefined ? (
                 <>
@@ -97,9 +111,9 @@ export class App extends Component {
                   <Sidebar setsearchBar={this.setsearchBar} myPosts={this.state.myPosts} loggedInUser={this.state.loggedInUser}/>
                   </div>
                 </>
-             ) : (
+              ) : (
                   <Redirect to="/" />
-                )}    
+                )}     
             </Route>
 
           

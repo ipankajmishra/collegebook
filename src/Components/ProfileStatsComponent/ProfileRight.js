@@ -10,9 +10,26 @@ export class ProfileRight extends Component {
       super(props);
       this.state={
         visible: false ,
-        post:{}
+        post:{},
+        posts:props.User.posts,
+        postMap:new Map()
       }
+      if(this.state.posts !==undefined || this.state.posts !== null)
+      {
+        let myMap = new Map();
+        this.state.posts.map((post,key)=>{
+          myMap.set(post.postId,key);
+        })
+        this.setState({
+          postMap:myMap
+        })
+      } 
+
+     
     }
+
+    
+
 
     showModal = (post,e) => {
       e.preventDefault();
@@ -37,8 +54,17 @@ export class ProfileRight extends Component {
       });
     };
 
+    deleteMyPost = (index) =>{
+      let myposts = this.state.posts;
+      myposts.splice(index, 1);
+      this.setState({
+        posts:myposts
+      },()=>this.props.setMyPosts(myposts))
+
+    }
+
     render() {
-      const picturesPosts = this.props.User!==undefined ? this.props.User.posts.map((post)=>{
+      const picturesPosts = this.props.User!==undefined ? this.state.posts.map((post)=>{
         return <Col className="gutter-row" span={6}>
           
         <div className="myprofile-post"><img onClick={(e)=>this.showModal(post,e)} style={{height:"140px", width:"217px"}} src={post.imgUrl}/></div>
@@ -59,7 +85,7 @@ export class ProfileRight extends Component {
                   onCancel={this.handleCancel}
                   footer={null}
                 >
-                  <PictureComponent  User={this.props.User} post={this.state.post} fromProfile={true}/>
+                  <PictureComponent postMap={this.state.postMap} deleteMyPost={this.deleteMyPost} User={this.props.User} post={this.state.post} fromProfile={true}/>
                 </Modal>
               </div>
               </div>

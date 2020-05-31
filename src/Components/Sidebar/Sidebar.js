@@ -69,10 +69,16 @@ export class Sidebar extends Component {
     this.props.setsearchBar(true);
   }
 
+  setMyPosts = (posts)=>{
+    this.setState({
+      myPosts:posts
+    })
+  }
+
   render() {
     const { placement, visible } = this.state;
     const posts = this.state.myPosts.map((post,key)=>{
-        return <PictureComponent loggedInUser={this.props.loggedInUser} post={post}/>
+        return <PictureComponent key={key} loggedInUser={this.props.loggedInUser} post={post}/>
     })
     return (
       <Layout className="layout">
@@ -134,11 +140,11 @@ export class Sidebar extends Component {
         >
          <div> <MDBRow>
             <MDBCol size="3">
-            <ProfileLeft User={this.props.loggedInUser}/>
+            <ProfileLeft myposts={this.state.myPosts} User={this.props.loggedInUser}/>
             </MDBCol>
             <MDBCol size="9">
             {/* <ProfileLeft/> */}
-            <ProfileRight User={this.props.loggedInUser}/>
+            {this.props.loggedInUser!==undefined && <ProfileRight setMyPosts={this.setMyPosts} User={this.props.loggedInUser}/>}
             </MDBCol>
           </MDBRow></div>
 

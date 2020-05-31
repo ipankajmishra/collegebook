@@ -4,12 +4,13 @@ import { Card, Avatar } from 'antd'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import moment from "moment";
 // import { faThumbsUp, faThumbsDown, faHeart, faComment, faPaperPlane } from '@fortawesome/free-regular-svg-icons'
-import { UserOutlined } from '@ant-design/icons';
+import { UserOutlined, DeleteTwoTone } from '@ant-design/icons';
 import { AiOutlineHeart } from 'react-icons/ai';
 import { FiMessageCircle } from 'react-icons/fi';
 import { RiShareForwardBoxLine } from 'react-icons/ri';
 import { BsDot } from 'react-icons/bs';
 import "./PictureComponent.css"
+import axios from 'axios';
 export class PictureComponent extends Component {
     constructor(props){
         super(props);
@@ -32,13 +33,32 @@ export class PictureComponent extends Component {
         }
     }
     
+    deletemypost=()=>{
+        console.log("i m here")
+        let id = this.props.post.postId;
+        let formdata = {
+            "postId":this.props.post.postId,
+            "likeCount":this.props.User.userId
+        }
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/deletePost`,formdata).then((res)=>{
+            if(res.data==="true"){
+                console.log("delete successfull");
+                let index = this.props.postMap.get(id);
+                this.props.deleteMyPost(index);
+            }
+            else{
+                console.log("delete unsuccessfull");  
+            }
+        })
+    }
 
     render() {
         const agotime = moment(this.props.post.createDate).fromNow();
         const  createdBy= !this.props.fromProfile ? `${this.props.loggedInUser.firstName} ${this.props.loggedInUser.lastName}`:`${this.props.User.firstName} ${this.props.User.lastName}`;
         
         return (
-            <div className="picture-component-full">
+            <div className={this.props.fromProfile ? "picture-component-full-profile" : "picture-component-full"}>
+                {this.props.fromProfile && <DeleteTwoTone onClick={()=>this.deletemypost()} className="deletemypost" />}
                 <Card  bordered={true} style={{textAlign:"left"}}>
 
                     <div>
@@ -56,10 +76,10 @@ export class PictureComponent extends Component {
                     {/* <br /> */}
                     <div className="post-tools">
                         <div className="left-tools">
-                            <AiOutlineHeart onclick={()=>{}} size={30} style={{marginRight:"10px", cursor:"pointer"}}/>
-                            <FiMessageCircle onclick={()=>{}} size={30} style={{marginRight:"10px", cursor:"pointer"}}/>
+                            <AiOutlineHeart onClick={()=>{}} size={30} style={{marginRight:"10px", cursor:"pointer"}}/>
+                            <FiMessageCircle onClick={()=>{}} size={30} style={{marginRight:"10px", cursor:"pointer"}}/>
 
-                            <RiShareForwardBoxLine onclick={()=>{}} size={30} style={{marginRight:"10px", cursor:"pointer"}}/>
+                            <RiShareForwardBoxLine onClick={()=>{}} size={30} style={{marginRight:"10px", cursor:"pointer"}}/>
                         </div>
                         <div className="right-tools">
                            <p>{this.props.post.likeCount} Likes  </p>

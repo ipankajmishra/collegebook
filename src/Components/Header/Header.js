@@ -144,7 +144,7 @@ export class Header extends Component {
           "post":this.state.post,
           "mobile":this.props.loggedInUser.mobileNumber
         };
-        axios.post('https://www.happyec.in/post/addNewPost', formData)
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/addNewPost`, formData)
         .then((response)=> {
           console.log(response.data);
           this.setState({
@@ -162,7 +162,7 @@ export class Header extends Component {
       let e = event.target.value;
       console.log(e);
       if(e.length>0){
-        axios.get("https://www.happyec.in/user/getUserByUserName/"+e).then((res)=>{
+        axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/getUserByUserName/`+e).then((res)=>{
             console.log(res.data);
             if(res.data.length>0){
               this.setState({

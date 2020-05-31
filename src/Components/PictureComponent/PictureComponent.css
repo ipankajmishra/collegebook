@@ -10,6 +10,10 @@
     margin-top: 20px;
 }
 
+.picture-component-full-profile{
+    margin-top: 0px;
+}
+
 .post-tools{
     margin-top: 20px;
 }
@@ -24,4 +28,13 @@
 .agoTime{
     float: right;
     font-size: 13px;
+}
+
+.deletemypost{
+    margin-top: 0px;
+    display: block;
+    margin-bottom: 10px;
+    margin-left: 450px;
+    /* float: right; */
+    /* margin-right: 400px; */
 }
