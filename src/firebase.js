@@ -2,7 +2,7 @@ import firebase from 'firebase'
 
 const config={
     apiKey: "AIzaSyBIsNXRI7p6bsFUOBSF1RQswEB6H3H-iVY",
-    authDomain: "collegebook-2ffc0.firebaseapp.com",
+    authDomain: "https://goofy-turing-7c2dc0.netlify.app",
     databaseURL: "https://collegebook-2ffc0.firebaseio.com",
     projectId: "collegebook-2ffc0",
     storageBucket: "collegebook-2ffc0.appspot.com",
