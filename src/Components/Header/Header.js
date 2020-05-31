@@ -399,11 +399,11 @@ export class Header extends Component {
         >
          <div> <MDBRow>
             <MDBCol size="3">
-            <ProfileLeft  User={this.state.data[0]}/>
+            {this.state.data.length>0 && <ProfileLeft  User={this.state.data[0]}/>}
             </MDBCol>
             <MDBCol size="9">
             {/* <ProfileLeft/> */}
-            <ProfileRight User={this.state.data[0]}/>
+            {this.state.data.length>0 && <ProfileRight User={this.state.data[0]}/>}
             </MDBCol>
           </MDBRow></div>
 

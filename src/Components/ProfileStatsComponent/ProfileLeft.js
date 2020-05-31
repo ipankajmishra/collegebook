@@ -26,7 +26,7 @@ export class ProfileLeft extends Component {
                     </Col>
                     <Col className="colten" span={12}>
                        
-                        <Statistic title="Total Posts" value={this.props.myposts.length} />
+                        <Statistic title="Total Posts" value={this.props.User.posts.length} />
                      <Statistic text-center title="Followers" value={this.props.User.followers.length} />
                         
                         <Statistic title="Following" value={this.props.User.following.length} />
