@@ -27,7 +27,8 @@ export class Sidebar extends Component {
       myPosts:[],
       visible: false,
        placement: 'bottom',
-       selectedIdMenu:"1"
+       selectedIdMenu:"1",
+       User:{}
     }
   }
 
@@ -52,7 +53,8 @@ export class Sidebar extends Component {
   componentWillReceiveProps(props){
     // if(props.myPosts!==this.props.myPosts){
       this.setState({
-        myPosts:props.myPosts
+        myPosts:props.myPosts,
+        User:this.props.loggedInUser
       })
     // }
   }
@@ -70,8 +72,11 @@ export class Sidebar extends Component {
   }
 
   setMyPosts = (posts)=>{
+    let user = this.state.User;
+    user.posts = posts;
     this.setState({
-      myPosts:posts
+      myPosts:posts,
+      User:user
     })
   }
 
@@ -140,11 +145,11 @@ export class Sidebar extends Component {
         >
          <div> <MDBRow>
             <MDBCol size="3">
-            <ProfileLeft myposts={this.state.myPosts} User={this.props.loggedInUser}/>
+            <ProfileLeft myposts={this.state.myPosts} User={this.state.User}/>
             </MDBCol>
             <MDBCol size="9">
             {/* <ProfileLeft/> */}
-            {this.props.loggedInUser!==undefined && <ProfileRight setMyPosts={this.setMyPosts} User={this.props.loggedInUser}/>}
+            {this.props.loggedInUser!==undefined && <ProfileRight setMyPosts={this.setMyPosts} User={this.state.User}/>}
             </MDBCol>
           </MDBRow></div>
 
