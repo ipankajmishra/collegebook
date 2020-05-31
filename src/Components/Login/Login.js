@@ -36,7 +36,7 @@ export class Login extends Component {
   };
 
   handleClickSignIn = () =>{
-    axios.get(`http://52.221.186.66:9090/user/getUserByMobile/`+parseInt(this.state.mobile))
+    axios.get(`https://www.happyec.in/user/getUserByMobile/`+parseInt(this.state.mobile))
     .then(res => {
       let user = res.data;
       if(user.length>0){
