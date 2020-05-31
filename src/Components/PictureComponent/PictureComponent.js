@@ -70,7 +70,7 @@ export class PictureComponent extends Component {
                     <button href="#" style={{border:'none' , backgroundColor:'white' , padding:'0px' , margin:'0px 0px 0px 15px'}} ><FontAwesomeIcon icon={faComment} /></button>
                     <button href="#" style={{border:'none' , backgroundColor:'white' , padding:'0px' , margin:'0px 0px 0px 15px'}} ><FontAwesomeIcon icon={faPaperPlane} /></button> */}
                     <div>
-                <p className="post-desc" style={{}}><span style={{fontWeight:"bold", marginRight:"10px"}}>{!this.props.fromProfile?this.props.loggedInUser.userName:this.props.User}</span>{this.props.post.postDescription}</p>
+                <p className="post-desc" style={{}}><span style={{fontWeight:"bold", marginRight:"10px"}}>{!this.props.fromProfile?this.props.loggedInUser.userName:this.props.User.userName}</span>{this.props.post.postDescription}</p>
                     </div>
 
                 </Card>

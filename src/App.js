@@ -14,19 +14,19 @@ export class App extends Component {
     this.state={
       isloggedIn:false,
       user:null,
-      loggedInUser:null,
-      // loggedInUser:{
-      //   "firstName":"Pankaj",
-      //   "lastName":"Mishra",
-      //   "userName":"panmish",
-      //   "userId":1,
-      //   "mobileNumber":1234567890,
-      //   "followers":"11111111",
-      //   "following":"111111111111111111111111111111111111",
-      //   "bio":"All your dreams can come true and I'll make sure of it.",
-      //   "posts":[{"imgUrl":"https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg"},1,1,1,1,1]
+      // loggedInUser:null,
+      loggedInUser:{
+        "firstName":"Pankaj",
+        "lastName":"Mishra",
+        "userName":"panmish",
+        "userId":1,
+        "mobileNumber":1234567890,
+        "followers":"11111111",
+        "following":"111111111111111111111111111111111111",
+        "bio":"All your dreams can come true and I'll make sure of it.",
+        "posts":[{"imgUrl":"https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg"},1,1,1,1,1]
        
-      // },
+      },
       myPosts:[],
       showSearchBar:false
     }
@@ -90,16 +90,16 @@ export class App extends Component {
           />}
 
             <Route path="/timeline">
-              {this.state.isloggedIn && this.state.user!==null && this.state.user!==undefined ? (
+              {/* {this.state.isloggedIn && this.state.user!==null && this.state.user!==undefined ? ( */}
                 <>
                     <Header setsearchBar={this.setsearchBar} showSearchBar ={this.state.showSearchBar} setLoggedInUser = {this.setLoggedInUser} setLoggedIn={this.setLoggedIn} loggedInUser={this.state.loggedInUser}/>
                   <div style={{marginTop:"14px"}}>
                   <Sidebar setsearchBar={this.setsearchBar} myPosts={this.state.myPosts} loggedInUser={this.state.loggedInUser}/>
                   </div>
                 </>
-             ) : (
+             {/* ) : (
                   <Redirect to="/" />
-                )}    
+                )}     */}
             </Route>
 
           
