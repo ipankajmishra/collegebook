@@ -144,7 +144,7 @@ export class Header extends Component {
           "post":this.state.post,
           "mobile":this.props.loggedInUser.mobileNumber
         };
-        axios.post('http://52.221.186.66:9090/post/addNewPost', formData)
+        axios.post('https://www.happyec.in/post/addNewPost', formData)
         .then((response)=> {
           console.log(response.data);
           this.setState({
@@ -162,7 +162,7 @@ export class Header extends Component {
       let e = event.target.value;
       console.log(e);
       if(e.length>0){
-        axios.get("http://52.221.186.66:9090/user/getUserByUserName/"+e).then((res)=>{
+        axios.get("https://www.happyec.in/user/getUserByUserName/"+e).then((res)=>{
             console.log(res.data);
             if(res.data.length>0){
               this.setState({
@@ -305,6 +305,7 @@ export class Header extends Component {
                   />
                 </Form.Item>
               </Col> */}
+
             </Row>
             <Row gutter={16}>
               <Col span={12}>
