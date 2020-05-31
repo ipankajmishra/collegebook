@@ -35,7 +35,7 @@ export class PictureComponent extends Component {
 
     render() {
         const agotime = moment(this.props.post.createDate).fromNow();
-        const  createdBy= `${this.props.loggedInUser.firstName} ${this.props.loggedInUser.lastName}`
+        const  createdBy= !this.props.fromProfile ? `${this.props.loggedInUser.firstName} ${this.props.loggedInUser.lastName}`:`${this.props.User.firstName} ${this.props.User.lastName}`;
         
         return (
             <div className="picture-component-full">
