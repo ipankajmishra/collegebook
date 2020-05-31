@@ -38,13 +38,13 @@ export class ProfileRight extends Component {
     };
 
     render() {
-      const picturesPosts = this.props. User!==undefined ? this.props. User.posts.map((post)=>{
+      const picturesPosts = this.props.User!==undefined ? this.props.User.posts.map((post)=>{
         return <Col className="gutter-row" span={6}>
           
         <div className="myprofile-post"><img onClick={(e)=>this.showModal(post,e)} style={{height:"140px", width:"217px"}} src={post.imgUrl}/></div>
       </Col>;
       }) : <div></div>
-        if(this.props. User !==undefined && this.props. User!==null)
+        if(this.props.User !==undefined && this.props.User!==null)
         {return (
             <div className="right-myprofile">
                 <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
@@ -59,7 +59,7 @@ export class ProfileRight extends Component {
                   onCancel={this.handleCancel}
                   footer={null}
                 >
-                  <PictureComponent  User={this.props. User} post={this.state.post} fromProfile={true}/>
+                  <PictureComponent  User={this.props.User} post={this.state.post} fromProfile={true}/>
                 </Modal>
               </div>
               </div>
