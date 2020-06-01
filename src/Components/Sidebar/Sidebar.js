@@ -28,7 +28,8 @@ export class Sidebar extends Component {
       visible: false,
        placement: 'bottom',
        selectedIdMenu:"1",
-       User:{}
+       User:{},
+       postMap:new Map()
     }
   }
 
@@ -55,6 +56,18 @@ export class Sidebar extends Component {
       this.setState({
         myPosts:props.myPosts,
         User:this.props.loggedInUser
+      },()=>{
+        let posts = this.state.myPosts;
+        if(posts !==undefined || posts !== null)
+      {
+        let myMap = new Map();
+        posts.map((post,key)=>{
+          myMap.set(post.postId,key);
+        })
+        this.setState({
+          postMap:myMap
+        })
+      } 
       })
     // }
   }
@@ -71,18 +84,18 @@ export class Sidebar extends Component {
     this.props.setsearchBar(true);
   }
 
-  setMyPosts = (posts)=>{
-    let user = this.state.User;
-    user.posts = posts;
-    this.setState({
-      myPosts:posts,
-      User:user
-    })
-  }
+  // setMyPosts = (posts)=>{
+  //   let user = this.state.User;
+  //   user.posts = posts;
+  //   this.setState({
+  //     myPosts:posts,
+  //     User:user
+  //   })
+  // }
 
   render() {
     const { placement, visible } = this.state;
-    const posts = this.state.myPosts.map((post,key)=>{
+    const posts = this.props.myPosts.map((post,key)=>{
         return <PictureComponent key={key} loggedInUser={this.props.loggedInUser} post={post}/>
     })
     return (
@@ -145,11 +158,11 @@ export class Sidebar extends Component {
         >
          <div> <MDBRow>
             <MDBCol size="3">
-            <ProfileLeft myposts={this.state.myPosts} User={this.state.User}/>
+            {this.props.loggedInUser!==undefined && <ProfileLeft fromHeader={false} myposts={this.props.loggedInUser.posts} User={this.props.loggedInUser}/>}
             </MDBCol>
             <MDBCol size="9">
             {/* <ProfileLeft/> */}
-            {this.props.loggedInUser!==undefined && <ProfileRight setMyPosts={this.setMyPosts} User={this.state.User}/>}
+            {this.props.loggedInUser!==undefined && <ProfileRight fromHeader={false} postMap={this.state.postMap} setMyPosts={this.props.setMyPosts} myposts={this.state.myPosts} User={this.state.User}/>}
             </MDBCol>
           </MDBRow></div>
 

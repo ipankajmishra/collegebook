@@ -7,6 +7,7 @@ import Sidebar from './Components/Sidebar/Sidebar';
 import Login from './Components/Login/Login';
 import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom';
 import SignUp from './Components/Signup/SignUp';
+import axios from 'axios';
 
 export class App extends Component {
   constructor(props){
@@ -15,6 +16,7 @@ export class App extends Component {
     this.state={
       isloggedIn:false,
       user:null,
+      loggedInUserForHeader:null,
       loggedInUser:null,
       // loggedInUser:{
       //   "firstName":"Pankaj",
@@ -62,6 +64,7 @@ export class App extends Component {
     })
     this.setState({
       loggedInUser:user,
+      loggedInUserForHeader:user,
       myPosts:posts
     })
   }
@@ -73,6 +76,23 @@ export class App extends Component {
         : this.setState({ user: null });
     });
   
+    
+  }
+
+
+  setMyPosts = (posts)=>{
+    console.log("Aftere delete")
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/getUserByUserName/`+this.state.loggedInUser.userName).then((res)=>{
+      
+      let posts = res.data[0].posts;
+         posts.sort((a,b)=>{
+      return b.postId - a.postId;
+    })
+    this.setState({
+        myPosts:posts,
+        loggedInUser:res.data[0]
+      })
+    })
     
   }
 
@@ -106,9 +126,9 @@ export class App extends Component {
             <Route path="/timeline">
               {this.state.isloggedIn && this.state.user!==null && this.state.user!==undefined ? (
                 <>
-                    <Header setsearchBar={this.setsearchBar} showSearchBar ={this.state.showSearchBar} setLoggedInUser = {this.setLoggedInUser} setLoggedIn={this.setLoggedIn} loggedInUser={this.state.loggedInUser}/>
+                    <Header setsearchBar={this.setsearchBar} showSearchBar ={this.state.showSearchBar} setLoggedInUser = {this.setLoggedInUser} setLoggedIn={this.setLoggedIn} loggedInUser={this.state.loggedInUserForHeader}/>
                   <div style={{marginTop:"14px"}}>
-                  <Sidebar setsearchBar={this.setsearchBar} myPosts={this.state.myPosts} loggedInUser={this.state.loggedInUser}/>
+                  {this.state.loggedInUser!==undefined && this.state.myPosts && <Sidebar setMyPosts={this.setMyPosts} setsearchBar={this.setsearchBar} myPosts={this.state.myPosts} loggedInUser={this.state.loggedInUser}/>}
                   </div>
                 </>
               ) : (

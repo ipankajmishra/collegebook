@@ -41,10 +41,12 @@ export class PictureComponent extends Component {
             "likeCount":this.props.User.userId
         }
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/deletePost`,formdata).then((res)=>{
-            if(res.data==="true"){
+            console.log(res);
+            if(res.data===true){
                 console.log("delete successfull");
                 let index = this.props.postMap.get(id);
                 this.props.deleteMyPost(index);
+                this.props.setMyPosts("Pankaj is god");
             }
             else{
                 console.log("delete unsuccessfull");  
@@ -58,7 +60,7 @@ export class PictureComponent extends Component {
         
         return (
             <div className={this.props.fromProfile ? "picture-component-full-profile" : "picture-component-full"}>
-                {this.props.fromProfile && <DeleteTwoTone onClick={()=>this.deletemypost()} className="deletemypost" />}
+                {this.props.fromProfile && this.props.fromHeader && <DeleteTwoTone onClick={()=>this.deletemypost()} className="deletemypost" />}
                 <Card  bordered={true} style={{textAlign:"left"}}>
 
                     <div>

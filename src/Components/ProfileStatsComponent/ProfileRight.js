@@ -11,19 +11,19 @@ export class ProfileRight extends Component {
       this.state={
         visible: false ,
         post:{},
-        posts:props.User.posts,
+        posts:props.myposts,
         postMap:new Map()
       }
-      if(this.state.posts !==undefined || this.state.posts !== null)
-      {
-        let myMap = new Map();
-        this.state.posts.map((post,key)=>{
-          myMap.set(post.postId,key);
-        })
-        this.setState({
-          postMap:myMap
-        })
-      } 
+      // if(this.state.posts !==undefined || this.state.posts !== null)
+      // {
+      //   let myMap = new Map();
+      //   this.state.posts.map((post,key)=>{
+      //     myMap.set(post.postId,key);
+      //   })
+      //   this.setState({
+      //     postMap:myMap
+      //   })
+      // } 
 
      
     }
@@ -55,16 +55,21 @@ export class ProfileRight extends Component {
     };
 
     deleteMyPost = (index) =>{
-      let myposts = this.state.posts;
-      myposts.splice(index, 1);
+      console.log("deleted and close")
+      // let myposts = this.state.posts;
+      // myposts.splice(index, 1);
+      // this.setState({
+      //   posts:myposts,
+      //   visible: false
+      // },()=>this.props.setMyPosts(myposts))
       this.setState({
-        posts:myposts
-      },()=>this.props.setMyPosts(myposts))
-
+       
+        visible: false
+      })
     }
 
     render() {
-      const picturesPosts = this.props.User!==undefined ? this.state.posts.map((post)=>{
+      const picturesPosts = this.props.User!==undefined ? this.props.myposts.map((post)=>{
         return <Col className="gutter-row" span={6}>
           
         <div className="myprofile-post"><img onClick={(e)=>this.showModal(post,e)} style={{height:"140px", width:"217px"}} src={post.imgUrl}/></div>
@@ -85,7 +90,7 @@ export class ProfileRight extends Component {
                   onCancel={this.handleCancel}
                   footer={null}
                 >
-                  <PictureComponent postMap={this.state.postMap} deleteMyPost={this.deleteMyPost} User={this.props.User} post={this.state.post} fromProfile={true}/>
+                  <PictureComponent fromHeader={this.props.fromHeader} setMyPosts={this.props.setMyPosts} postMap={this.props.postMap} deleteMyPost={this.deleteMyPost} User={this.props.User} post={this.state.post} fromProfile={true}/>
                 </Modal>
               </div>
               </div>
