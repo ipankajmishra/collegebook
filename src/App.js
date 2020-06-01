@@ -18,6 +18,18 @@ export class App extends Component {
       user:null,
       loggedInUserForHeader:null,
       loggedInUser:null,
+      // loggedInUserForHeader:{
+      //   "firstName":"Pankaj",
+      //   "lastName":"Mishra",
+      //   "userName":"panmish",
+      //   "userId":1,
+      //   "mobileNumber":1234567890,
+      //   "followers":"11111111",
+      //   "following":"111111111111111111111111111111111111",
+      //   "bio":"All your dreams can come true and I'll make sure of it.",
+      //   "posts":[{"imgUrl":"https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg"},1,1,1,1,1]
+       
+      // },
       // loggedInUser:{
       //   "firstName":"Pankaj",
       //   "lastName":"Mishra",
@@ -131,7 +143,7 @@ export class App extends Component {
                   {this.state.loggedInUser!==undefined && this.state.myPosts && <Sidebar setMyPosts={this.setMyPosts} setsearchBar={this.setsearchBar} myPosts={this.state.myPosts} loggedInUser={this.state.loggedInUser}/>}
                   </div>
                 </>
-              ) : (
+               ) : (
                   <Redirect to="/" />
                 )}     
             </Route>

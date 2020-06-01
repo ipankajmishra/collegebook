@@ -400,11 +400,11 @@ export class Header extends Component {
          <div> <MDBRow>
             <MDBCol size="3">
 
-            {this.state.data.length>0 && <ProfileLeft fromHeader={true} myposts={this.state.data[0].posts} User={this.state.data[0]}/>}
+            {this.state.data.length>0 && <ProfileLeft loggedInUser={this.props.loggedInUser} setLoggedInUser = {this.props.setLoggedInUser} fromHeader={true} myposts={this.state.data[0].posts} User={this.state.data[0]}/>}
             </MDBCol>
             <MDBCol size="9">
             {/* <ProfileLeft/> */}
-            {this.state.data.length>0 && <ProfileRight fromHeader={true} myposts={this.state.data[0].posts} User={this.state.data[0]}/>}
+            {this.state.data.length>0 && <ProfileRight loggedInUser={this.props.loggedInUser} setLoggedInUser = {this.props.setLoggedInUser} fromHeader={true} myposts={this.state.data[0].posts} User={this.state.data[0]}/>}
             </MDBCol>
           </MDBRow></div>
 
