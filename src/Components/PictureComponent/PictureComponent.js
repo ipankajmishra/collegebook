@@ -60,7 +60,7 @@ export class PictureComponent extends Component {
         
         return (
             <div className={this.props.fromProfile ? "picture-component-full-profile" : "picture-component-full"}>
-                {this.props.fromProfile && this.props.fromHeader && <DeleteTwoTone onClick={()=>this.deletemypost()} className="deletemypost" />}
+                {this.props.fromProfile && !this.props.fromHeader && <DeleteTwoTone onClick={()=>this.deletemypost()} className="deletemypost" />}
                 <Card  bordered={true} style={{textAlign:"left"}}>
 
                     <div>
