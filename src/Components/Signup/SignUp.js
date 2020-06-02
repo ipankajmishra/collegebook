@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Input, Button } from "antd";
+import { Input, Button, message } from "antd";
 import { Card } from "antd";
 import firebase from "../../firebase";
 import bgImg from "../../images/pencils-1280558_1920.jpg";
@@ -66,8 +66,10 @@ export class SignUp extends Component {
   handleClickSignIn = () =>{
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/getUserByMobile/`+parseInt(this.state.mobile))
     .then(res => {
+      
       let user = res.data;
       if(user.length>0){
+        message.error('User already exists.');
           this.setState({
               user:res.data[0]
           })//,()=>this.handleClickSignInUsingMobile()
@@ -196,7 +198,7 @@ export class SignUp extends Component {
     }
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/addNewUser`,formdata).then((res)=>{
         if(res.data.userName!==undefined && res.data.userName !==null && res.data.userName.length>0){
-                
+          message.success('Welcome to the college family !!');
                 this.props.setLoggedIn(this.state.result.user);
                 this.props.setLoggedInUser(res.data);
                 this.setState({

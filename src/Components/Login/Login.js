@@ -1,14 +1,16 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Input, Button } from "antd";
-import { Card } from "antd";
+import { Input, Button, Layout, notification } from "antd";
+import { Card,message } from "antd";
 import firebase from "../../firebase";
-import bgImg from "../../images/pencils-1280558_1920.jpg";
+import bgImg from "../../images/loginbg.jpg";
 import OtpInput from 'react-otp-input';
 import "./Login.css";
 import axios from 'axios';
 import { DownloadOutlined, PoweroffOutlined, CheckCircleTwoTone, CloseCircleTwoTone } from "@ant-design/icons";
 import { withRouter, Link } from "react-router-dom";
+import { AiFillHeart } from "react-icons/ai";
+const { Header, Content, Footer, Sider } = Layout;
 export class Login extends Component {
   constructor(props) {
     super(props);
@@ -35,6 +37,11 @@ export class Login extends Component {
   //   }
   // }
 
+  componentDidMount(){
+    this.openNotification('bottomRight');
+  }
+  
+
   setMobileNumber = (e) => {
     const re = /^[0-9\b]+$/;
     if (e.target.value === "" || re.test(e.target.value)) {
@@ -54,6 +61,7 @@ export class Login extends Component {
       }
       else{
           console.log("User does not exists");
+          message.error('User does not exists. Kindly sign up.');
       }
     })
   }
@@ -156,13 +164,25 @@ export class Login extends Component {
   //   })
   // }
 
+  openNotification = (placement) => {
+    notification.info({
+      duration:null,
+      message: `Notification `,
+      description:
+        'CollegeBook is solely for the students of various colleges in order to help each other with the "Ask Anything" feature along with the cool features of Instagram for sharing posts and.',
+      placement,
+    });
+  };
+  
+
   render() {
     return (
+      <Layout>
       <div
         style={{
           backgroundImage: `url(${bgImg})`,
           ackgroundRepeat: "no-repeat",
-          minHeight: "100vh",
+          minHeight: "90vh",
         }}
         className="loginBg"
       >
@@ -239,7 +259,11 @@ export class Login extends Component {
             )}{" "}
           </Card>
         </div>
-      </div>
+       
+         
+      </div> <Footer style={{ textAlign: "center" , height:"10vh"}}>
+            CollegeBook ©2020 Made with <AiFillHeart className="madewithlove" style={{color:"red"}}/> by a <strong>Vitian</strong>
+          </Footer></Layout>
     );
   }
 }

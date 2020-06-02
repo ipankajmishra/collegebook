@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import "./Sidebar.css";
 import { Layout, Menu } from "antd";
 import { Drawer, Button, Radio, Space } from 'antd';
+import InfiniteScroll from 'react-infinite-scroller';
+import { List, message, Avatar, Spin } from 'antd';
 import { PictureComponent } from './../PictureComponent/PictureComponent';
 import {
 
@@ -17,6 +19,8 @@ import {
 import ProfileLeft from "../ProfileStatsComponent/ProfileLeft";
 import { MDBRow, MDBCol } from "mdbreact";
 import ProfileRight from "../ProfileStatsComponent/ProfileRight";
+import axios from "axios";
+import { AiFillHeart } from "react-icons/ai";
 
 const { Header, Content, Footer, Sider } = Layout;
 export class Sidebar extends Component {
@@ -29,12 +33,55 @@ export class Sidebar extends Component {
        placement: 'bottom',
        selectedIdMenu:"1",
        User:{},
-       postMap:new Map()
+       data:[],
+       postMap:new Map(),
+       loading: false,
+       hasMore: true,
+       index: 0,
+       count:0,
+       postArray:[]
     }
+    // this.myOverallFunction();
   }
 
   componentDidMount(){
     this.props.setsearchBar(false);
+    // axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/timeline`,this.state.User).then((res)=>{
+    //   console.log(res.data);
+    //   this.setState({
+    //     postArray: res.data
+    //   })
+    // })
+
+  //   let posts = this.state.postArray;
+  //       let array = this.state.myPosts;
+  //       posts = posts.slice(this.state.index,this.state.index + 3);
+  //       let myMap = new Map();
+  //       array.map((post,key)=>{
+  //         myMap.set(post.postId,key);
+  //       })
+  //       this.setState({
+  //         postMap:myMap,
+  //         data:this.state.data.concat(posts),
+          
+  //         count:this.state.count+1
+  //       })
+  }
+
+  callmeinStarting = ()=>{
+    let posts = this.state.postArray;
+    let array = this.state.myPosts;
+    posts = posts.slice(this.state.index,this.state.index + 10);
+    let myMap = new Map();
+    array.map((post,key)=>{
+      myMap.set(post.postId,key);
+    })
+    this.setState({
+      postMap:myMap,
+      data:this.state.data.concat(posts),
+      
+      count:this.state.count+1
+    })
   }
 
   showDrawer = () => {
@@ -52,23 +99,24 @@ export class Sidebar extends Component {
   };
 
   componentWillReceiveProps(props){
-    // if(props.myPosts!==this.props.myPosts){
-      this.setState({
-        myPosts:props.myPosts,
-        User:this.props.loggedInUser
-      },()=>{
-        let posts = this.state.myPosts;
-        if(posts !==undefined || posts !== null)
-      {
-        let myMap = new Map();
-        posts.map((post,key)=>{
-          myMap.set(post.postId,key);
-        })
+    console.log("hello")
+    
+      console.log("postArray",props.postArray)
+
+      if(props!==this.props){
         this.setState({
-          postMap:myMap
+          User:props.loggedInUser,
+          myPosts:props.myPosts,
+          postArray:props.postArray
+        },()=>{
+        //   let posts = this.state.myPosts;
+        //   if(posts !==undefined || posts !== null)
+        // {
+          this.callmeinStarting();
+        // } 
         })
-      } 
-      })
+      }
+     
     // }
   }
 
@@ -93,10 +141,59 @@ export class Sidebar extends Component {
   //   })
   // }
 
+
+  handleInfiniteOnLoad = () => {
+    console.log("Infinite loading")
+    let { data } = this.state;
+    this.setState({
+      loading: true,
+    },()=>this.loadingMorePosts());
+    // if (data.length > 14) {
+    //   message.warning('Infinite List loaded all');
+    //   this.setState({
+    //     hasMore: false,
+    //     loading: false,
+    //   });
+    //   return;
+    // }
+    // let array = this.state.myPosts;
+    if(this.state.data.length + 10 >= this.state.postArray.length && this.state.hasMore)
+    {
+       let array1 = this.state.postArray;
+        message.warning('No new Posts available');
+        this.setState({
+          data : array1,
+          hasMore: false,
+          loading: false,
+          index:this.state.index + 10
+        });
+        return;
+    }
+    else{
+      let array = this.state.postArray.slice(this.state.index,this.state.index + 10);
+      this.setState({
+        data : this.state.data.concat(array),
+        loading: false,
+        index: this.state.index + 10
+      });
+    }
+    
+      // data = data.concat(res.results);
+     
+    
+  };
+
+  loadingMorePosts = () => {
+    const hide = message.loading('Loading more posts..', 0);
+    // Dismiss manually and asynchronously
+    setTimeout(hide, 1000);
+  };
+
   render() {
     const { placement, visible } = this.state;
-    const posts = this.props.myPosts.map((post,key)=>{
-        return <PictureComponent key={key} loggedInUser={this.props.loggedInUser} post={post}/>
+    const posts = this.state.data.map((post,key)=>{
+        return <PictureComponent key={key} User={this.props.loggedInUser} post={post}/>
+        
     })
     return (
       <Layout className="layout">
@@ -134,17 +231,26 @@ export class Sidebar extends Component {
           /> */}
           <Content style={{ margin: "0px 16px 0", width:"700px"}}>
             <div
-              className="site-layout-background"
+              className="site-layout-background demo-infinite-container"
               style={{ padding:24, minHeight: 360 }}
             >
+              <InfiniteScroll
+          initialLoad={false}
+          pageStart={0}
+          loadMore={()=>this.handleInfiniteOnLoad()}
+          hasMore={!this.state.loading && this.state.hasMore}
+          useWindow={false}
+        >
              {posts}
+            
+             </InfiniteScroll>
 
             </div>
             
           </Content>
           
           <Footer style={{ textAlign: "center" }}>
-            CollegeBook ©2020 Created by P&D 
+            CollegeBook ©2020 Made with <AiFillHeart className="madewithlove" style={{color:"red"}}/> by a <strong>Vitian</strong>
           </Footer>
         </Layout>
         <Drawer
@@ -168,6 +274,9 @@ export class Sidebar extends Component {
 
           
         </Drawer>
+        {/* <Footer style={{ textAlign: "center" , height:"10vh"}}>
+            CollegeBook ©2020 Made with <AiFillHeart className="madewithlove" style={{color:"red"}}/> by a <strong>Vitian</strong>
+          </Footer> */}
       </Layout>
     );
   }

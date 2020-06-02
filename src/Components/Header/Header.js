@@ -12,29 +12,15 @@ import axios from "axios";
 
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Menu, Dropdown, Button } from 'antd';
+import { Menu, Dropdown, Button,Spin } from 'antd';
 import { DownOutlined } from '@ant-design/icons';
 import ProfileLeft from "../ProfileStatsComponent/ProfileLeft";
 import ProfileRight from "../ProfileStatsComponent/ProfileRight";
 
 const { Option } = Select;
 const { Dragger } = Upload;
-const props = {
-  name: 'file',
-  multiple: true,
-  action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-  onChange(info) {
-    const { status } = info.file;
-    if (status !== 'uploading') {
-      console.log(info.file, info.fileList);
-    }
-    if (status === 'done') {
-      message.success(`${info.file.name} file uploaded successfully.`);
-    } else if (status === 'error') {
-      message.error(`${info.file.name} file upload failed.`);
-    }
-  },
-};
+
+var storageRef = firebase.storage().ref();
 export class Header extends Component {
     constructor(props){
         super(props);
@@ -43,8 +29,10 @@ export class Header extends Component {
           post:{},
           showSearchBar:false,
           data : [],
+          postSpin:false,
           visibleProfileDw: false,
        placement: 'bottom',
+       pictureToUpload:{}
         }
     }
    
@@ -59,7 +47,7 @@ export class Header extends Component {
       this.props.setsearchBar(false);
     }
 
-    componentWillReceiveProps(porps){
+    componentWillReceiveProps(props){
       this.setState({
         showSearchBar:props.showSearchBar
       })
@@ -130,27 +118,37 @@ export class Header extends Component {
       })
     }
 
-    onhandleCreatePost = () =>{
+    onhandleCreatePost = async () =>{
+     this.setState({
+       postSpin:true
+     })
       let post = this.state.post;
       post["likeCount"]=0;
       post["shareCount"]=0;
       post["createDate"]=new Date();
       post["likedUsers"]=[];
-      post["imgUrl"]="https://www.yourtrainingedge.com/wp-content/uploads/2019/05/background-calm-clouds-747964.jpg";
+      post["userName"]=this.props.loggedInUser.userName;
+      post["firstName"]=this.props.loggedInUser.firstName;
+      post["lastName"]=this.props.loggedInUser.lastName;
+      post["imgUrl"]="";
       this.setState({
         post
       },()=>{
         let formData = {
           "post":this.state.post,
           "mobile":this.props.loggedInUser.mobileNumber
+
         };
         axios.post(`${process.env.REACT_APP_BACKEND_URL}/post/addNewPost`, formData)
-        .then((response)=> {
+        .then(async(response)=> {
+          let upload =  await storageRef.child('posts/'+response.data[1]+".jpg").put(this.state.pictureToUpload.originFileObj);
+          console.log(upload);
           console.log(response.data);
           this.setState({
             visible: false,
+            postSpin:false
           },()=>{
-            this.props.setLoggedInUser(response.data);
+            this.props.setLoggedInUser(response.data[0]);
           });
         })
       })
@@ -192,7 +190,35 @@ export class Header extends Component {
       });
     };
 
+    uploadToGCP =({ fileList })=>{
+      console.log('Aliyun OSS:', fileList);
+    //  let upload =  storageRef.child('posts/mountains.jpg').put(file);
+    //  console.log(upload);
+    }
+
+  
+
+    onPictureChange = ({ fileList }) => {
+      const { onChange } = this.props;
+      console.log('Aliyun OSS:', fileList);
+      if (onChange) {
+        onChange([...fileList]);
+      }
+      this.setState({
+        pictureToUpload: fileList[0]
+      })
+    };
+
     render() {
+
+      const props = {
+        name: 'file',
+        multiple: false,
+        action:this.uploadToGCP,
+        onChange: this.onPictureChange
+      };
+
+
       const { placement, visibleProfileDw } = this.state;
         const menuSearch = (
           <Menu>
@@ -259,6 +285,8 @@ export class Header extends Component {
                         
                      </div>
                 </div> 
+
+               
                 <Drawer
           title="Create a new post"
           width={720}
@@ -266,6 +294,7 @@ export class Header extends Component {
           visible={this.state.visible}
           bodyStyle={{ paddingBottom: 80 }}
           footer={
+            <Spin spinning={this.state.postSpin}>
             <div
               style={{
                 textAlign: 'right',
@@ -277,7 +306,7 @@ export class Header extends Component {
               <Button onClick={()=>this.onhandleCreatePost()} type="primary">
                 Submit
               </Button>
-            </div>
+            </div></Spin>
           }
         >
           <Form layout="vertical" hideRequiredMark>
@@ -327,7 +356,7 @@ export class Header extends Component {
                   rules={[{ required: true, message: 'Please choose the type' }]}
                 >
                   <Select onChange={(value)=>this.onhadleSelecType(value)} placeholder="Please choose the type">
-                    <Option value="private">Private</Option>
+                    {/* <Option value="private">Private</Option> */}
                     <Option value="public">Public</Option>
                   </Select>
                 </Form.Item>

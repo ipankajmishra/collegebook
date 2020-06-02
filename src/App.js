@@ -16,6 +16,7 @@ export class App extends Component {
     this.state={
       isloggedIn:false,
       user:null,
+      postArray:[],
       loggedInUserForHeader:null,
       loggedInUser:null,
       // loggedInUserForHeader:{
@@ -65,7 +66,7 @@ export class App extends Component {
       this.setState({
         isloggedIn:false,
         user:user
-      })
+      },()=>window.location.reload())
     }
   }
 
@@ -78,6 +79,17 @@ export class App extends Component {
       loggedInUser:user,
       loggedInUserForHeader:user,
       myPosts:posts
+    },()=>{
+      axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/timeline`,user).then((res)=>{
+          console.log(res.data);
+          let postsArray = res.data;
+            postsArray.sort((a,b)=>{
+              return b.postId - a.postId;
+            })
+          this.setState({
+            postArray: postsArray
+          })
+        })
     })
   }
 
@@ -89,6 +101,12 @@ export class App extends Component {
     });
   
     
+  }
+
+  setPostArray = (array) =>{
+    this.setState({
+      postArray:array
+    })
   }
 
 
@@ -117,6 +135,7 @@ export class App extends Component {
             exact
             render={props => (
               <Login
+              setPostArray = {this.setPostArray}
                setLoggedIn = {this.setLoggedIn}
                setLoggedInUser = {this.setLoggedInUser}
               />
@@ -129,7 +148,7 @@ export class App extends Component {
             
             render={props => (
              
-             <SignUp   setLoggedIn = {this.setLoggedIn}
+             <SignUp setPostArray={this.setPostArray}  setLoggedIn = {this.setLoggedIn}
              setLoggedInUser = {this.setLoggedInUser}
              />
             )}
@@ -140,7 +159,7 @@ export class App extends Component {
                 <>
                     <Header setsearchBar={this.setsearchBar} showSearchBar ={this.state.showSearchBar} setLoggedInUser = {this.setLoggedInUser} setLoggedIn={this.setLoggedIn} loggedInUser={this.state.loggedInUserForHeader}/>
                   <div style={{marginTop:"14px"}}>
-                  {this.state.loggedInUser!==undefined && this.state.myPosts && <Sidebar setMyPosts={this.setMyPosts} setsearchBar={this.setsearchBar} myPosts={this.state.myPosts} loggedInUser={this.state.loggedInUser}/>}
+                  {this.state.loggedInUser!==undefined && this.state.myPosts!==undefined && <Sidebar postArray={this.state.postArray} setMyPosts={this.setMyPosts} setsearchBar={this.setsearchBar} myPosts={this.state.myPosts} loggedInUser={this.state.loggedInUser}/>}
                   </div>
                 </>
                ) : (

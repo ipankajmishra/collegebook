@@ -1,5 +1,6 @@
 .post-avatar{
     margin-right: 10px;
+    margin-bottom: 5px;
 }
 
 .post-desc{
@@ -37,4 +38,41 @@
     margin-left: 450px;
     /* float: right; */
     /* margin-right: 400px; */
+}
+.qwerty{
+    width: 420px;
+    height: 200px;
+    /* filter: blur(8px); */
+    /* background-color: rgb(209, 208, 208); */
+    /* -webkit-filter: blur(8px); */
+    /* backdrop-filter: blur(8px); */
+}
+
+.qwerty2{
+    width: 600px;
+    height: 200px;
+    /* filter: blur(8px); */
+    /* background-color: rgb(209, 208, 208); */
+    /* -webkit-filter: blur(8px); */
+    /* backdrop-filter: blur(8px); */
+}
+
+.qwerty .qwertyimg{
+    display: block;
+    height: 100%;
+    margin: auto !important;
+      
+   
+}
+
+.qwertyimg{
+    padding: 1% 0 !important;
+}
+
+.qwerty2 .qwertyimg{
+    display: block;
+    height: 100%;
+    margin: auto !important;
+  
+   
 }
