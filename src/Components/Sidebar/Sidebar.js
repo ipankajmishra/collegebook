@@ -121,6 +121,7 @@ export class Sidebar extends Component {
   }
 
   timeline = () =>{
+    this.props.setLoggedInUser(this.state.User);
     this.props.setsearchBar(false);
   }
 

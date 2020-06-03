@@ -71,6 +71,7 @@ export class App extends Component {
   }
 
   setLoggedInUser = (user)=>{
+    console.log("again fetching")
     let posts = user.posts;
     posts.sort((a,b)=>{
       return b.postId - a.postId;
@@ -159,7 +160,7 @@ export class App extends Component {
                 <>
                     <Header setsearchBar={this.setsearchBar} showSearchBar ={this.state.showSearchBar} setLoggedInUser = {this.setLoggedInUser} setLoggedIn={this.setLoggedIn} loggedInUser={this.state.loggedInUserForHeader}/>
                   <div style={{marginTop:"14px"}}>
-                  {this.state.loggedInUser!==undefined && this.state.myPosts!==undefined && <Sidebar postArray={this.state.postArray} setMyPosts={this.setMyPosts} setsearchBar={this.setsearchBar} myPosts={this.state.myPosts} loggedInUser={this.state.loggedInUser}/>}
+                  {this.state.loggedInUser!==undefined && this.state.myPosts!==undefined && <Sidebar postArray={this.state.postArray} setMyPosts={this.setMyPosts} setsearchBar={this.setsearchBar} myPosts={this.state.myPosts} setLoggedInUser = {this.setLoggedInUser} loggedInUser={this.state.loggedInUser}/>}
                   </div>
                 </>
                ) : (
