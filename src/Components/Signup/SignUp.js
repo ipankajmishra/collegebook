@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Input, Button, message } from "antd";
 import { Card } from "antd";
 import firebase from "../../firebase";
-import bgImg from "../../images/pencils-1280558_1920.jpg";
+import bgImg from "../../images/loginbg.jpg";
 import OtpInput from 'react-otp-input';
 import "./SignUp.css";
 import axios from 'axios';
