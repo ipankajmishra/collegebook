@@ -100,7 +100,7 @@ export class Sidebar extends Component {
       count:this.state.count+1
     },()=>{
       console.log(this.state.data);
-      document.getElementById("backtotop").click();
+      
     })
   }
 
@@ -264,7 +264,7 @@ export class Sidebar extends Component {
         >
              {posts}
             <BackTop>
-              <div id="backtotop" style={style}>Back to top</div>
+              <div  style={style}>Back to top</div>
             </BackTop>
             
              </InfiniteScroll>
