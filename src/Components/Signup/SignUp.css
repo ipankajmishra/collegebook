@@ -42,3 +42,12 @@
     width: 40px !important;
     margin-top: 30px;
 }
+
+.SignUpBg{
+  display: block;
+  margin-left: 40px;
+  background-repeat: repeat-y;
+  -webkit-box-shadow: 4px -2px 33px 2px rgba(191,145,191,1);
+-moz-box-shadow: 4px -2px 33px 2px rgba(191,145,191,1);
+box-shadow: 4px -2px 33px 2px rgba(191,145,191,1);
+}

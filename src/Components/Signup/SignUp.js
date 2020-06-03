@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { Input, Button, message } from "antd";
+import { Input, Button, message, Layout } from "antd";
 import { Card } from "antd";
 import firebase from "../../firebase";
 import bgImg from "../../images/loginbg.jpg";
@@ -11,7 +11,8 @@ import { DownloadOutlined, PoweroffOutlined, CheckCircleTwoTone, CloseCircleTwoT
 import { withRouter, Link } from "react-router-dom";
 import { Drawer, Form, Col, Row, Select, DatePicker } from 'antd';
 import { PlusOutlined } from '@ant-design/icons';
-
+import { AiFillHeart } from "react-icons/ai";
+const { Header, Content, Footer, Sider } = Layout;
 const { Option } = Select;
 export class SignUp extends Component {
   constructor(props) {
@@ -243,11 +244,12 @@ export class SignUp extends Component {
 
   render() {
     return (
+      <Layout>
       <div
         style={{
-          backgroundImage: `url(${bgImg})`,
+          backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/collegebook-2ffc0.appspot.com/o/loginbg.jpg?alt=media")`,//`url(${bgImg})`,
           ackgroundRepeat: "no-repeat",
-          minHeight: "100vh",
+          minHeight: "90vh",
         }}
         className="SignUpBg"
       >
@@ -425,7 +427,9 @@ export class SignUp extends Component {
 
         
         </Drawer>
-      </div>
+      </div><Footer style={{ textAlign: "center" , height:"10vh"}}>
+            CollegeBook ©2020 Made with <AiFillHeart className="madewithlove" style={{color:"red"}}/> by a <strong>Vitian</strong>
+          </Footer></Layout>
     );
   }
 }

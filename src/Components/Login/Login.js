@@ -180,7 +180,7 @@ export class Login extends Component {
       <Layout>
       <div
         style={{
-          backgroundImage: `url(${bgImg})`,
+          backgroundImage: `url("https://firebasestorage.googleapis.com/v0/b/collegebook-2ffc0.appspot.com/o/loginbg.jpg?alt=media")`,//`url(${bgImg})`,
           ackgroundRepeat: "no-repeat",
           minHeight: "90vh",
         }}
