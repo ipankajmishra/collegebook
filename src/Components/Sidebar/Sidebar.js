@@ -23,7 +23,7 @@ import axios from "axios";
 import { AiFillHeart } from "react-icons/ai";
 const style = {
   height: 40,
-  width: 40,
+  width: 80,
   lineHeight: '40px',
   borderRadius: 4,
   backgroundColor: '#1088e9',

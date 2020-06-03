@@ -13,6 +13,8 @@
 
 .picture-component-full-profile{
     margin-top: 0px;
+    opacity: 1;
+     transition: opacity 0.5s linear;
 }
 
 .post-tools{
