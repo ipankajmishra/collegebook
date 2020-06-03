@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import "./Sidebar.css";
 import { Layout, Menu } from "antd";
-import { Drawer, Button, Radio, Space } from 'antd';
+import { Drawer, Button, Radio, Space,BackTop  } from 'antd';
 import InfiniteScroll from 'react-infinite-scroller';
 import { List, message, Avatar, Spin } from 'antd';
 import { PictureComponent } from './../PictureComponent/PictureComponent';
@@ -21,7 +21,16 @@ import { MDBRow, MDBCol } from "mdbreact";
 import ProfileRight from "../ProfileStatsComponent/ProfileRight";
 import axios from "axios";
 import { AiFillHeart } from "react-icons/ai";
-
+const style = {
+  height: 40,
+  width: 40,
+  lineHeight: '40px',
+  borderRadius: 4,
+  backgroundColor: '#1088e9',
+  color: '#fff',
+  textAlign: 'center',
+  fontSize: 14,
+};
 const { Header, Content, Footer, Sider } = Layout;
 export class Sidebar extends Component {
   static propTypes = {};
@@ -91,6 +100,7 @@ export class Sidebar extends Component {
       count:this.state.count+1
     },()=>{
       console.log(this.state.data);
+      document.getElementById("backtotop").click();
     })
   }
 
@@ -253,6 +263,9 @@ export class Sidebar extends Component {
           useWindow={false}
         >
              {posts}
+            <BackTop>
+              <div id="backtotop" style={style}>Back to top</div>
+            </BackTop>
             
              </InfiniteScroll>
 
