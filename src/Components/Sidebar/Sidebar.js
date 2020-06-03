@@ -48,7 +48,8 @@ export class Sidebar extends Component {
        hasMore: true,
        index: 0,
        count:0,
-       postArray:[]
+       postArray:[],
+       blurClass:'blurImagesForSometime'
     }
     // this.myOverallFunction();
   }
@@ -100,6 +101,15 @@ export class Sidebar extends Component {
       count:this.state.count+1
     },()=>{
       console.log(this.state.data);
+      setTimeout(
+        function() {
+          this.setState({
+            blurClass:''
+          })
+        }
+        .bind(this),
+        2000
+    );
       
     })
   }
@@ -127,7 +137,8 @@ export class Sidebar extends Component {
         this.setState({
           User:props.loggedInUser,
           myPosts:props.myPosts,
-          postArray:props.postArray
+          postArray:props.postArray,
+          blurClass:'blurImagesForSometime'
         },()=>{
         //   let posts = this.state.myPosts;
         //   if(posts !==undefined || posts !== null)
@@ -213,7 +224,7 @@ export class Sidebar extends Component {
   render() {
     const { placement, visible } = this.state;
     const posts = this.state.data.map((post,key)=>{
-        return <PictureComponent key={key} User={this.props.loggedInUser} post={post}/>
+        return <div className={this.state.blurClass}><PictureComponent  key={key} User={this.props.loggedInUser} post={post}/></div>
         
     })
     return (

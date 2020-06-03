@@ -7,8 +7,16 @@
     margin-top: 65px;
 }
 
+.myprofile-post{
+    -webkit-box-shadow: 0px 1px 5px 6px rgba(227,207,227,1);
+-moz-box-shadow: 0px 1px 5px 6px rgba(227,207,227,1);
+box-shadow: 0px 1px 5px 6px rgba(227,207,227,1);
+}
+
 .picture-component-full{
     margin-top: 20px;
+    opacity: 1;
+    transition: opacity 2s linear;
 }
 
 .picture-component-full-profile{

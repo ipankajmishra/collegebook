@@ -55,6 +55,14 @@
     
   }
 
+  .blurImagesForSometime{
+    
+    filter: blur(8px);
+    /* background-color: rgb(209, 208, 208); */
+    -webkit-filter: blur(8px);
+    /* backdrop-filter: blur(8px); */
+  }
+
   .demo-infinite-container {
     /* border: 1px solid #e8e8e8;
     border-radius: 4px; */
