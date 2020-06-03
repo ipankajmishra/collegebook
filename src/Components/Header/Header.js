@@ -174,6 +174,9 @@ export class Header extends Component {
             }
         })
       }
+      else if(e===this.props.loggedInUser.userName){
+        message.error(`Oop, You are at wrong way. Visit "My Account" section to checkout your profile`);
+      }
     }
 
     showDrawerProfile = () => {
