@@ -159,7 +159,7 @@ export class Header extends Component {
     findUserUsingUserName = (event) =>{
       let e = event.target.value;
       console.log(e);
-      if(e.length>0){
+      if(e.length>0 && e!==this.props.loggedInUser.userName){
         axios.get(`${process.env.REACT_APP_BACKEND_URL}/user/getUserByUserName/`+e).then((res)=>{
             console.log(res.data);
             if(res.data.length>0){
@@ -433,7 +433,10 @@ export class Header extends Component {
             </MDBCol>
             <MDBCol size="9">
             {/* <ProfileLeft/> */}
-            {this.state.data.length>0 && <ProfileRight loggedInUser={this.props.loggedInUser} setLoggedInUser = {this.props.setLoggedInUser} fromHeader={true} myposts={this.state.data[0].posts} User={this.state.data[0]}/>}
+            {this.state.data.length>0 && this.state.data[0].type && !this.state.data[0].followers.includes(this.props.loggedInUser.userId) && <div className="blurProfileFromHeader"><ProfileRight loggedInUser={this.props.loggedInUser} setLoggedInUser = {this.props.setLoggedInUser} fromHeader={true} myposts={this.state.data[0].posts} User={this.state.data[0]}/></div>}
+            {this.state.data.length>0 && this.state.data[0].type && this.state.data[0].followers.includes(this.props.loggedInUser.userId) && <div className=""><ProfileRight loggedInUser={this.props.loggedInUser} setLoggedInUser = {this.props.setLoggedInUser} fromHeader={true} myposts={this.state.data[0].posts} User={this.state.data[0]}/></div>}
+            {this.state.data.length>0 && !this.state.data[0].type  &&  <div className=""><ProfileRight loggedInUser={this.props.loggedInUser} setLoggedInUser = {this.props.setLoggedInUser} fromHeader={true} myposts={this.state.data[0].posts} User={this.state.data[0]}/></div>}
+
             </MDBCol>
           </MDBRow></div>
 

@@ -4,9 +4,10 @@
 }
 
 .myprofile-name{
-    font-size: 20px;
+    font-size: 18px;
     margin-top: 20px;
-    margin-left: 20px;
+    margin-left: 10px;
+    display: inherit;
 }
 
 .ant-statistic-content{
@@ -21,4 +22,18 @@
 
 .follow-button{
    float: left;
+}
+
+.nameWithToggle{
+    display: contents;
+}
+
+.toggleButton{
+    font-size: 14px;
+    size: "small";
+    margin-bottom: 5px;
+}
+
+.avatar-myprofile .ant-avatar{
+    margin-bottom: 20px;
 }

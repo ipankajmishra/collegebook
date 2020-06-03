@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import "./ProfileLeft.css";
 import { Avatar } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
-import { Statistic, Row, Col, Button } from 'antd';
+import { Statistic, Row, Col, Button,Switch  } from 'antd';
 import axios from 'axios';
 export class ProfileLeft extends Component {
     constructor(props){
@@ -88,6 +88,25 @@ export class ProfileLeft extends Component {
         })
     }
 
+    setPublic =(e) =>{
+        console.log(e);
+        console.log(e);
+        let user = this.props.User;
+        user.type = false;
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/addNewUser`,user).then((res)=>{
+            console.log(res.data);
+        })
+    }
+
+    setPrivate=(e)=>{
+        console.log(e);
+        let user = this.props.User;
+        user.type = true;
+        axios.post(`${process.env.REACT_APP_BACKEND_URL}/user/addNewUser`,user).then((res)=>{
+            console.log(res.data);
+        })
+    }
+
     render() {
         if(this.props.User !==undefined && this.props.User!==null){
             return (
@@ -97,7 +116,9 @@ export class ProfileLeft extends Component {
                     <Col span={12}>
                     <div className="avatar-myprofile">
                      <Avatar size={164} icon={<UserOutlined />} />
-                  <p className="myprofile-name">{this.props.User.firstName} {this.props.User.lastName}</p>
+            {this.props.User.type && <div className="nameWithToggle"><p className="myprofile-name">{this.props.User.firstName} {this.props.User.lastName} </p>{!this.props.fromHeader && this.props.User.type && <Switch size="small" className="toggleButton" defaultChecked onChange={(e)=>this.setPublic(e)} />}</div> }
+            {!this.props.User.type && <div className="nameWithToggle"><p className="myprofile-name">{this.props.User.firstName} {this.props.User.lastName} </p>{!this.props.fromHeader && !this.props.User.type && <Switch size="small" className="toggleButton"  onChange={(e)=>this.setPrivate(e)} />}</div> }
+
                   </div>
                     </Col>
                     <Col className="colten" span={12}>

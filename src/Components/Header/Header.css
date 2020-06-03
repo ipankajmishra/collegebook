@@ -58,3 +58,10 @@ box-shadow: 0px 10px 62px -5px rgba(230,181,215,1);
    margin-left: 550px;
     position: absolute;
 }
+
+.blurProfileFromHeader{
+    filter: blur(12px);
+    /* background-color: rgb(209, 208, 208); */
+    -webkit-filter: blur(12px);
+    /* backdrop-filter: blur(8px); */
+}
