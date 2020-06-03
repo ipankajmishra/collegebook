@@ -69,18 +69,28 @@ export class Sidebar extends Component {
   }
 
   callmeinStarting = ()=>{
+    
     let posts = this.state.postArray;
+    console.log(posts);
     let array = this.state.myPosts;
-    posts = posts.slice(this.state.index,this.state.index + 10);
+    if(this.state.postArray.length>10){
+      posts = posts.slice(this.state.index,this.state.index + 10);
+    }
+    else{
+      posts = this.state.postArray;
+    }
+    
     let myMap = new Map();
     array.map((post,key)=>{
       myMap.set(post.postId,key);
     })
     this.setState({
       postMap:myMap,
-      data:this.state.data.concat(posts),
+      data:posts,
       
       count:this.state.count+1
+    },()=>{
+      console.log(this.state.data);
     })
   }
 
