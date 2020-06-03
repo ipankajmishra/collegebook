@@ -108,7 +108,7 @@ export class Sidebar extends Component {
           })
         }
         .bind(this),
-        2000
+        1500
     );
       
     })
