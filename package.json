@@ -12,7 +12,7 @@
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "antd": "^4.2.5",
-    "axios": "^0.19.2",
+    "axios": "^1.6.0",
     "firebase": "^7.14.6",
     "mdbreact": "^4.27.0",
     "moment": "^2.26.0",
